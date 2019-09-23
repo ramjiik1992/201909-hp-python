@@ -13,6 +13,7 @@ count_primes(2,100) # should return 25
 Assignment 2
 ============
 
+* extend the function created in assignment to add following feature
 * min should default to 0
 
 Example:
