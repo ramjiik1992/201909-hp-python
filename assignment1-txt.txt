@@ -1,0 +1,25 @@
+Assignment 1
+============
+
+* write a function  count_primes to count all primes in a given min,max range
+
+Example
+
+count_primes(2,10) # should return 4
+
+count_primes(2,100) # should return 25
+
+
+Assignment 2
+============
+
+* min should default to 0
+
+Example:
+count_primes(100) # should count all primes between 0 and 100
+
+
+* A Prime Numer is a number that is not divisible by any number between 2 and itself
+
+
+
