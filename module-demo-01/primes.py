@@ -21,3 +21,28 @@ def prime_range(min,max=None):
     return primes
             
 
+def test():
+
+    print('testing',__name__)
+
+    test_data={2:True, 9:False, -3:True, -10:False, 0:False, 1:True}
+
+    errors=0
+    for (number,expected) in test_data.items():
+        actual=is_prime(number)
+        if actual!=expected:
+            print('is_prime({}) failed. expected {} actual {}'.format(number,expected,actual))
+            errors+=1
+
+    if not errors:
+        print('all test passed')
+    else:
+        print('{}/{} test failed'.format(errors, len(test_data)))
+
+if __name__=='__main__':
+    test()
+
+
+
+
+

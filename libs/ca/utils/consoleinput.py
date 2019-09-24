@@ -1,4 +1,7 @@
+import sys
 
+if sys.version_info.major<3:
+    input=raw_input   #replace input with raw_input for python 3-
 
 def read_string(prompt,default=''):
     x=input(prompt)
