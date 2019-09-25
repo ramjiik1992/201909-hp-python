@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>05-Triangle-Object-Model</title>
+<title>06-ObjectLifeCycle</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13077,20 +13077,120 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Triangle-Object-Model">Triangle Object Model<a class="anchor-link" href="#Triangle-Object-Model">&#182;</a></h1><ul>
-<li>To define an object like <strong>Triangle</strong> we need to define a class</li>
-<li>However a python class has very different design and role in comparision to a C++ style language</li>
+<h3 id="Circle-Object-Model">Circle Object Model<a class="anchor-link" href="#Circle-Object-Model">&#182;</a></h3><ul>
+<li>consider the Circle model below</li>
 </ul>
-<h3 id="Class-Responsiblity-1---create-a-new-identity-(or-object)">Class Responsiblity 1 - create a new identity (or object)<a class="anchor-link" href="#Class-Responsiblity-1---create-a-new-identity-(or-object)">&#182;</a></h3>
+<hr>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">radius</span><span class="p">):</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">radius</span><span class="o">&gt;</span><span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">surface</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Circle{self.radius} drawn on {surface}&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;invalid circle&#39;</span><span class="p">)</span>
+</pre></div>
+<hr>
+<ul>
+<li>now consider the use case</li>
+</ul>
+<hr>
+<div class="highlight"><pre><span></span><span class="c1">#line 1</span>
+<span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span>
+
+<span class="c1">#line 2</span>
+<span class="n">c</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="c1">#line 3</span>
+<span class="n">c</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;paper&#39;</span><span class="p">)</span>
+</pre></div>
+<hr>
+<h4 id="When-is-circle-created?-On-line1-or-line-2?">When is circle created? On line1 or line 2?<a class="anchor-link" href="#When-is-circle-created?-On-line1-or-line-2?">&#182;</a></h4><h4 id="if-it-is-created-on-the-line1">if it is created on the line1<a class="anchor-link" href="#if-it-is-created-on-the-line1">&#182;</a></h4><ul>
+<li>what is the radius of this circle?</li>
+<li>is this a valid circle or not?</li>
+<li>what if I draw this circle</li>
+<li>can a circle exist without a radius?</li>
+</ul>
+<h4 id="if-it-is-created-on-line-2">if it is created on line 2<a class="anchor-link" href="#if-it-is-created-on-line-2">&#182;</a></h4><ul>
+<li>what is the status of circle between line1 and line2</li>
+<li>what will be its id?</li>
+<li>what will be its type?</li>
+</ul>
+<h4 id="Two-phase-of-creation">Two phase of creation<a class="anchor-link" href="#Two-phase-of-creation">&#182;</a></h4><ol>
+<li>Pythonic creation or in-memory creation ---&gt; Line 1</li>
+<li>Geometric creation or in-domain creation ---&gt; Line 2</li>
+</ol>
+<ul>
+<li><p>object is usable only after the two phases complete scucessfully</p>
+</li>
+<li><p>we must fill the gap between to phases</p>
+</li>
+</ul>
+<h2 id="__init__()">__init__()<a class="anchor-link" href="#__init__()">&#182;</a></h2><ul>
+<li><p>python provides a special class method called <strong>__init__()</strong></p>
+</li>
+<li><p>this method can be compared with <strong>constructor</strong> of c++ style languages</p>
+</li>
+<li><p>__init__() is <strong>NOT A Constructor</strong></p>
+</li>
+<li><p>Python also has a constructor (same name as that of class)</p>
+</li>
+<li><p>The python constructor internally calls __init__()</p>
+</li>
+<li><p>A python consturctor is <strong>Not replacable</strong></p>
+</li>
+</ul>
+<h3 id="psudocode-for-python-object-construction">psudocode for python object construction<a class="anchor-link" href="#psudocode-for-python-object-construction">&#182;</a></h3><hr>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Circle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">radius</span><span class="p">):</span>
+    <span class="c1">#step 1- inmemory creation</span>
+    <span class="n">_self</span><span class="o">=</span><span class="n">Circle</span><span class="o">.</span><span class="fm">__new__</span><span class="p">()</span> <span class="c1">#allocates memory</span>
+
+    <span class="c1">#step 2 - domain creation or initialzation and validation</span>
+    <span class="n">Circle</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_self</span><span class="p">,</span><span class="n">radius</span><span class="p">)</span>
+
+    <span class="c1"># step 3 return the newly created object</span>
+    <span class="k">return</span> <span class="n">_self</span>
+</pre></div>
+<hr>
+<ul>
+<li><p>we most often don't need to define our own version of <strong>__new__</strong></p>
+<ul>
+<li>we may if we need</li>
+</ul>
+</li>
+<li><p>we almost always define our own __init__()</p>
+</li>
+</ul>
+<h4 id="Problem">Problem<a class="anchor-link" href="#Problem">&#182;</a></h4><ul>
+<li>different objects will need different number of parameters. How will constructor know what parametrers to take?</li>
+</ul>
+<ul>
+<li>a more accurate psudodcode</li>
+</ul>
+<hr>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Circle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1">#step 1- inmemory creation</span>
+    <span class="n">_self</span><span class="o">=</span><span class="n">Circle</span><span class="o">.</span><span class="fm">__new__</span><span class="p">()</span> <span class="c1">#allocates memory</span>
+
+    <span class="c1">#step 2 - domain creation or initialzation and validation</span>
+    <span class="n">Circle</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># step 3 return the newly created object</span>
+    <span class="k">return</span> <span class="n">_self</span>
+</pre></div>
+<hr>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Triangle</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
     <span class="k">pass</span>
 </pre></div>
 
@@ -13099,48 +13199,12 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Class-Responsibility-1.1-----allow-to-create-the-object">Class Responsibility 1.1 --- allow to create the object<a class="anchor-link" href="#Class-Responsibility-1.1-----allow-to-create-the-object">&#182;</a></h4><ul>
-<li>To create an object you need to use <strong>ClassName</strong> as a <strong>function()</strong></li>
-<li>All objects in python is always dynamic<ul>
-<li>objects are always created on stack</li>
-<li>objects are always refered by a name</li>
-</ul>
-</li>
-<li><p>Python doesn't have <strong>new</strong> keyword, it is implied.</p>
-</li>
-<li><p>Every object will have a</p>
-<ul>
-<li>*<em>type identitity</em> ---&gt; class</li>
-<li><strong>instance identity</strong> --&gt;id(obj)</li>
-</ul>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">Triangle</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">Circle</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -13157,11 +13221,41 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;class &#39;__main__.Triangle&#39;&gt;
+<pre>[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;]
 </pre>
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Let-us-redefine-Circle-class">Let us redefine Circle class<a class="anchor-link" href="#Let-us-redefine-Circle-class">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
+    <span class="c1">#def create(self,radius):        </span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">radius</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">radius</span><span class="o">&gt;</span><span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">surface</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Circle</span><span class="si">{self.radius}</span><span class="s1"> drawn on </span><span class="si">{surface}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;invalid circle&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
@@ -13171,7 +13265,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span> <span class="c1"># c=Circle.__new__(); c.__init__()</span>
 </pre></div>
 
     </div>
@@ -13187,9 +13281,14 @@ div#notebook {
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>2559073765896
-</pre>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                        Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-5-08dcafc4c883&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>c<span class="ansi-yellow-intense-fg ansi-bold">=</span>Circle<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: __init__() missing 1 required positional argument: &#39;radius&#39;</pre>
 </div>
 </div>
 
@@ -13202,9 +13301,20 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t2</span><span class="o">=</span><span class="n">Triangle</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">t2</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">t2</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="c1"># c=Circle.__new__(); Circle.__init__(c,7)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;paper&#39;</span><span class="p">)</span> <span class="c1"># Circle.draw(c,&#39;paper&#39;)</span>
 </pre></div>
 
     </div>
@@ -13221,8 +13331,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;class &#39;__main__.Triangle&#39;&gt;
-2559073783752
+<pre>Circle7 drawn on paper
 </pre>
 </div>
 </div>
@@ -13234,9 +13343,30 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Class-Responsibilty-1.2----&gt;-define-a-classfication-or-identity-of-an-object">Class Responsibilty 1.2 ---&gt; define a classfication or identity of an object<a class="anchor-link" href="#Class-Responsibilty-1.2----&gt;-define-a-classfication-or-identity-of-an-object">&#182;</a></h4><ul>
-<li>python provides <strong>isinstance()</strong> to check if an object is of a given type</li>
-<li>this can be programetically used</li>
+<h2 id="Object-Destruction">Object Destruction<a class="anchor-link" href="#Object-Destruction">&#182;</a></h2><ul>
+<li>when an object looses its reference it must be cleaned</li>
+<li>python invokes special class method (if it exists) called <strong>__del__()</strong></li>
+<li>del takes only <strong>self</strong></li>
+<li>this method is called when object looses its last reference</li>
+<li><p>this mehtod is used for</p>
+<ul>
+<li><p>clearing <strong>Non-managed resource</strong></p>
+<ul>
+<li>closing a open file or connection</li>
+<li>pushing data in database</li>
+<li>committing a pending transaction</li>
+</ul>
+</li>
+<li><p>logging object lifecyle event</p>
+</li>
+</ul>
+</li>
+<li><p>this method doesn't clear or free memory (like c++)</p>
+</li>
+<li><p>memory is freed by <strong>garbage collector</strong> and may happen much later in the system</p>
+</li>
+<li><p>garabge collector works in a undeterministic way, del works in a deterministic way</p>
+</li>
 </ul>
 
 </div>
@@ -13244,56 +13374,44 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">Triangle</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
+    <span class="c1">#def create(self,radius):        </span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">radius</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">radius</span><span class="o">&gt;</span><span class="mi">0</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Circle</span><span class="si">{self.radius}</span><span class="s1"> (id={id(self)}) created&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Circle</span><span class="si">{self.radius}</span><span class="s1"> (id={id(self)}) deleted&#39;</span><span class="p">)</span>
+            
+            
+    
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[8]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>__main__.Triangle</pre>
 </div>
-
-</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-case-1.">Use case 1.<a class="anchor-link" href="#Use-case-1.">&#182;</a></h3><ul>
+<li>lets create a single circle and del it</li>
+</ul>
 
 </div>
 </div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Triangle</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13306,15 +13424,13 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[9]:</div>
+    <div class="prompt"></div>
 
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Circle7 (id=1570918185736) created
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -13326,7 +13442,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c2</span><span class="o">=</span><span class="n">Circle</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13339,15 +13455,13 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[10]:</div>
+    <div class="prompt"></div>
 
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>False</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Circle7 (id=1570918211720) created
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -13357,17 +13471,12 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="What-is-Not-a-Class-Responsibility">What is Not a Class Responsibility<a class="anchor-link" href="#What-is-Not-a-Class-Responsibility">&#182;</a></h2><ul>
-<li><p>unlike c++ style languages, Python <strong>class is not responsible</strong> for defining properties or states of an object</p>
+<h3 id="what-does-del-keyword-do">what does del keyword do<a class="anchor-link" href="#what-does-del-keyword-do">&#182;</a></h3><ul>
+<li><strong>del</strong> removes the reference and not the object</li>
+<li><strong>del</strong> doesn't call <strong>__del__()</strong> method</li>
+<li><p>when the last reference is removed <strong>__del__()</strong> is called</p>
 </li>
-<li><p>A Triangle class is not expected to define the sides of a Triangle</p>
-</li>
-<li><p>Object's can define their own states</p>
-</li>
-<li><p>This states can be defined after object is created</p>
-<ul>
-<li>This makes object <strong>evolving</strong></li>
-</ul>
+<li><p>if there is a single reference and it is delete, it may give a feeling that <strong>del</strong> calls <strong>__del__()</strong></p>
 </li>
 </ul>
 
@@ -13379,51 +13488,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Triangle</span><span class="p">:</span>
-    <span class="k">pass</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Step-1.-Class-Creates-Objects">Step 1. Class Creates Objects<a class="anchor-link" href="#Step-1.-Class-Creates-Objects">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">Triangle</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Step-1.1---how-does-the-object-look-currently?-What-is-its-structure?">Step 1.1 - how does the object look currently? What is its structure?<a class="anchor-link" href="#Step-1.1---how-does-the-object-look-currently?-What-is-its-structure?">&#182;</a></h4><ul>
-<li>use <strong>dir()</strong> command</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">del</span> <span class="n">c2</span>
 </pre></div>
 
     </div>
@@ -13440,7 +13505,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;]
+<pre>Circle7 (id=1570918211720) deleted
 </pre>
 </div>
 </div>
@@ -13449,29 +13514,33 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Object-Responsibility-1-----define-their-state">Object Responsibility 1 --- define their state<a class="anchor-link" href="#Object-Responsibility-1-----define-their-state">&#182;</a></h3><ul>
-<li>object may add any dynamic state to themselves after creation</li>
-<li>objects are born with fewer properties</li>
-<li>they acquire more in their life time.</li>
-</ul>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">=</span><span class="mi">3</span>
-<span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">=</span><span class="mi">4</span>
-<span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">=</span><span class="mi">5</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">del</span> <span class="n">c</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Circle7 (id=1570918185736) deleted
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -13481,28 +13550,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Object with multiple references</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;, &#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;]
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13512,7 +13563,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="p">,</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="p">,</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c1</span><span class="o">=</span><span class="n">Circle</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">c2</span><span class="o">=</span><span class="n">c1</span>
 </pre></div>
 
     </div>
@@ -13529,83 +13581,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>3 4 5
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="How-can-This-Object-Model-Help-of-Perimeter()-problem?">How can This Object Model Help of Perimeter() problem?<a class="anchor-link" href="#How-can-This-Object-Model-Help-of-Perimeter()-problem?">&#182;</a></h3><ul>
-<li>our perimeter function will take a triangle object</li>
-<li>since we are passing a single value we may not pass unrelated values like<ul>
-<li>dimension of a human</li>
-<li>three sides of three different triangle</li>
-</ul>
-</li>
-<li>But we can still pass a human or a cricle?<ul>
-<li>we can</li>
-<li>we should validate the incoming object</li>
-</ul>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">triangle_is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="k">return</span>  <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">Triangle</span><span class="p">)</span> <span class="ow">and</span> \
-            <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="mi">0</span> \
-            <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span> \
-            <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span> \
-            <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s1</span>
-
-<span class="k">def</span> <span class="nf">triangle_perimeter</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">s3</span> <span class="k">if</span> <span class="n">triangle_is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">Triangle</span><span class="p">()</span>
-<span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="p">,</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="p">,</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">triangle_is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">triangle_perimeter</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>True
-12
+<pre>Circle7 (id=1570918136072) created
 </pre>
 </div>
 </div>
@@ -13616,13 +13592,23 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t2</span><span class="o">=</span><span class="n">Triangle</span><span class="p">()</span>
-<span class="n">t2</span><span class="o">.</span><span class="n">s1</span><span class="p">,</span><span class="n">t2</span><span class="o">.</span><span class="n">s2</span><span class="p">,</span><span class="n">t2</span><span class="o">.</span><span class="n">s3</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">12</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">triangle_is_valid</span><span class="p">(</span><span class="n">t2</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">triangle_perimeter</span><span class="p">(</span><span class="n">t2</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">del</span> <span class="n">c1</span> <span class="c1">#c1 reference is deleted but. object id *72 still is live with c1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c2</span><span class="o">=</span><span class="s1">&#39;Hello World&#39;</span> <span class="c1"># now there is no reference let to object id *72, it will be deleted</span>
 </pre></div>
 
     </div>
@@ -13639,1373 +13625,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>False
-None
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
-    <span class="k">pass</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">triangle_is_valid</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">triangle_perimeter</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>False
-None
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Problem---What-if-I-miss-setting-sides">Problem - What if I miss setting sides<a class="anchor-link" href="#Problem---What-if-I-miss-setting-sides">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">Triangle</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">triangle_perimeter</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                   Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-26-510db222238c&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">      1</span> t<span class="ansi-yellow-intense-fg ansi-bold">=</span>Triangle<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>print<span class="ansi-yellow-intense-fg ansi-bold">(</span>triangle_perimeter<span class="ansi-yellow-intense-fg ansi-bold">(</span>t<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-19-7bc2b12bb02e&gt;</span> in <span class="ansi-cyan-fg">triangle_perimeter</span><span class="ansi-blue-intense-fg ansi-bold">(t)</span>
-<span class="ansi-green-fg">      7</span> 
-<span class="ansi-green-fg">      8</span> <span class="ansi-green-intense-fg ansi-bold">def</span> triangle_perimeter<span class="ansi-yellow-intense-fg ansi-bold">(</span>t<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 9</span><span class="ansi-yellow-intense-fg ansi-bold">     </span><span class="ansi-green-intense-fg ansi-bold">return</span> t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s1 <span class="ansi-yellow-intense-fg ansi-bold">+</span> t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s2 <span class="ansi-yellow-intense-fg ansi-bold">+</span> t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s3 <span class="ansi-green-intense-fg ansi-bold">if</span> triangle_is_valid<span class="ansi-yellow-intense-fg ansi-bold">(</span>t<span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-green-intense-fg ansi-bold">else</span> <span class="ansi-green-intense-fg ansi-bold">None</span>
-
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-19-7bc2b12bb02e&gt;</span> in <span class="ansi-cyan-fg">triangle_is_valid</span><span class="ansi-blue-intense-fg ansi-bold">(t)</span>
-<span class="ansi-green-fg">      1</span> <span class="ansi-green-intense-fg ansi-bold">def</span> triangle_is_valid<span class="ansi-yellow-intense-fg ansi-bold">(</span>t<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">      2</span>     <span class="ansi-green-intense-fg ansi-bold">return</span>  isinstance<span class="ansi-yellow-intense-fg ansi-bold">(</span>t<span class="ansi-yellow-intense-fg ansi-bold">,</span>Triangle<span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-green-intense-fg ansi-bold">and</span><span class="ansi-red-fg"> </span><span class="ansi-red-fg">\</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s1<span class="ansi-yellow-intense-fg ansi-bold">&gt;</span><span class="ansi-cyan-intense-fg ansi-bold">0</span> <span class="ansi-green-intense-fg ansi-bold">and</span> t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s2<span class="ansi-yellow-intense-fg ansi-bold">&gt;</span><span class="ansi-cyan-intense-fg ansi-bold">0</span> <span class="ansi-green-intense-fg ansi-bold">and</span> t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s3<span class="ansi-yellow-intense-fg ansi-bold">&gt;</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-red-fg"> </span><span class="ansi-red-fg">\</span>
-<span class="ansi-green-fg">      4</span>             <span class="ansi-green-intense-fg ansi-bold">and</span> t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s1<span class="ansi-yellow-intense-fg ansi-bold">+</span>t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s2<span class="ansi-yellow-intense-fg ansi-bold">&gt;</span>t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s3<span class="ansi-red-fg"> </span><span class="ansi-red-fg">\</span>
-<span class="ansi-green-fg">      5</span>             <span class="ansi-green-intense-fg ansi-bold">and</span> t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s1<span class="ansi-yellow-intense-fg ansi-bold">+</span>t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s3<span class="ansi-yellow-intense-fg ansi-bold">&gt;</span>t<span class="ansi-yellow-intense-fg ansi-bold">.</span>s2<span class="ansi-red-fg"> </span><span class="ansi-red-fg">\</span>
-
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: &#39;Triangle&#39; object has no attribute &#39;s1&#39;</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Lets-create-a-helper-function-to-create-a-triangle">Lets create a helper function to create a triangle<a class="anchor-link" href="#Lets-create-a-helper-function-to-create-a-triangle">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">triangle_is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="k">return</span>  <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">Triangle</span><span class="p">)</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">valid</span>
-            
-
-<span class="k">def</span> <span class="nf">triangle_perimeter</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">s3</span> <span class="k">if</span> <span class="n">triangle_is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
-
-<span class="k">def</span> <span class="nf">triangle_validate</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="n">t</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="mi">0</span> \
-            <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span> \
-            <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span> \
-            <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s1</span>
-
-
-<span class="k">def</span> <span class="nf">triangle_create</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s3</span><span class="p">):</span>
-    <span class="n">t</span><span class="o">=</span><span class="n">Triangle</span><span class="p">()</span>
-    <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="p">,</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="p">,</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">=</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s3</span>
-    <span class="n">triangle_validate</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">t</span>
-    
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_triangle</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">triangle_is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Triangle&lt;</span><span class="si">{t.s1}</span><span class="s1">,</span><span class="si">{t.s2}</span><span class="s1">,</span><span class="si">{t.s3}</span><span class="s1">&gt; has perimeter {triangle_perimeter(t)}&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid Triangle&#39;</span><span class="p">)</span>
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span><span class="o">=</span><span class="n">triangle_create</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">test_triangle</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Triangle&lt;3,4,5&gt; has perimeter 12
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t2</span><span class="o">=</span><span class="n">triangle_create</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
-<span class="n">test_triangle</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Invalid Triangle
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span>
-<span class="n">test_triangle</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Invalid Triangle
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Class--Responsibility-2">Class  Responsibility 2<a class="anchor-link" href="#Class--Responsibility-2">&#182;</a></h2><ul>
-<li>A class can act as a container for a group of functions</li>
-<li><p>In this responsibility a class can be considered similar to a <strong>module</strong></p>
-<ul>
-<li>Class methods can be use with <strong>classname.</strong> in the same way as you do with <strong>module.</strong></li>
-<li>This allows you to have two mulitple perimeter function in different classes</li>
-<li>like module a class also localizes a name</li>
-</ul>
-</li>
-<li><p>unlike module, however, a <strong>classname.</strong> is mandatory even when used inside the class</p>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#responsibility #1 ---&gt; define a new type of object</span>
-<span class="k">class</span> <span class="nc">Triangle</span><span class="p">:</span>
-    <span class="k">pass</span>
-
-
-<span class="c1">#respoinsbility #2 ----&gt; act as a container for methods</span>
-<span class="k">class</span> <span class="nc">TriangleOperation</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="k">return</span>  <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">Triangle</span><span class="p">)</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">valid</span>
-
-
-    <span class="k">def</span> <span class="nf">perimeter</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">s3</span> <span class="k">if</span> <span class="n">TriangleOperation</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
-
-    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="n">t</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="mi">0</span> \
-                <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span> \
-                <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span> \
-                <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s1</span>
-
-
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s3</span><span class="p">):</span>
-        <span class="n">t</span><span class="o">=</span><span class="n">Triangle</span><span class="p">()</span>
-        <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="p">,</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="p">,</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">=</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s3</span>
-        <span class="n">TriangleOperation</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">t</span>
-    
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;Triangle&lt;</span><span class="si">{t.s1}</span><span class="s1">,</span><span class="si">{t.s2}</span><span class="s1">,</span><span class="si">{t.s3}</span><span class="s1">&gt;&#39;</span> <span class="k">if</span> <span class="n">TriangleOperation</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&lt;Invalid Triangle&gt;&#39;</span>
-    
-    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">surface</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">TriangleOperation</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{TriangleOperation.info(t)} drawn on </span><span class="si">{surface}</span><span class="s1">&#39;</span><span class="p">)</span>
-        
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_triangle</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">TriangleOperation</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="n">TriangleOperation</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="s1">&#39;paper&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Perimeter is {TriangleOperation.perimeter(t)}&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid Triangle&#39;</span><span class="p">)</span>
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span><span class="o">=</span><span class="n">TriangleOperation</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">test_triangle</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Triangle&lt;3,4,5&gt; drawn on paper
-Perimeter is 12
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t2</span><span class="o">=</span><span class="n">TriangleOperation</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
-<span class="n">test_triangle</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Invalid Triangle
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_triangle</span><span class="p">(</span><span class="n">Circle</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Invalid Triangle
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_triangle</span><span class="p">(</span><span class="mi">29</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Invalid Triangle
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Current-Structures">Current Structures<a class="anchor-link" href="#Current-Structures">&#182;</a></h3><ul>
-<li>Triangle class contains some core features</li>
-<li>It doesn't include any properties such as s1,s2,s3 etc</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">Triangle</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>Triangle Object cotains all the core functionalities from its class</li>
-<li>They also include properties defined by (for) them that are not present in class</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">t1</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;, &#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;, &#39;valid&#39;]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="any-method-defined-within-a-class-is-also-part-of-its-structure">any method defined within a class is also part of its structure<a class="anchor-link" href="#any-method-defined-within-a-class-is-also-part-of-its-structure">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">TriangleOperation</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;, &#39;create&#39;, &#39;draw&#39;, &#39;info&#39;, &#39;is_valid&#39;, &#39;perimeter&#39;, &#39;validate&#39;]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Summary-about-class">Summary about class<a class="anchor-link" href="#Summary-about-class">&#182;</a></h3><ol>
-<li>Class Object Relationship<ol>
-<li>A class defines a type identity of an object</li>
-<li>A class creates the object</li>
-</ol>
-</li>
-<li>Class Method Relationship<ol>
-<li>class acts as container or owner of a method</li>
-</ol>
-</li>
-</ol>
-<h4 id="3.-class-doesn't-define-the-object's-state">3. class doesn't define the object's state<a class="anchor-link" href="#3.-class-doesn't-define-the-object's-state">&#182;</a></h4>
-<pre><code>* It is defined for objects directly
-* Most important difference from a c++ style language
-
-
-</code></pre>
-<h2 id="Can-we-merge-the-two-responsibilities-in-the-same-class">Can we merge the two responsibilities in the same class<a class="anchor-link" href="#Can-we-merge-the-two-responsibilities-in-the-same-class">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#responsibility #1 ---&gt; define a new type of object</span>
-<span class="c1">#respoinsbility #2 ----&gt; act as a container for methods</span>
-<span class="k">class</span> <span class="nc">Triangle</span><span class="p">:</span>
-    
-    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="k">return</span>  <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">Triangle</span><span class="p">)</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">valid</span>
-
-
-    <span class="k">def</span> <span class="nf">perimeter</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">s3</span> <span class="k">if</span> <span class="n">Triangle</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
-
-    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="n">t</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="mi">0</span> \
-                <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span> \
-                <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span> \
-                <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="o">+</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">&gt;</span><span class="n">t</span><span class="o">.</span><span class="n">s1</span>
-
-
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s3</span><span class="p">):</span>
-        <span class="n">t</span><span class="o">=</span><span class="n">Triangle</span><span class="p">()</span>
-        <span class="n">t</span><span class="o">.</span><span class="n">s1</span><span class="p">,</span><span class="n">t</span><span class="o">.</span><span class="n">s2</span><span class="p">,</span><span class="n">t</span><span class="o">.</span><span class="n">s3</span><span class="o">=</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s3</span>
-        <span class="n">Triangle</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">t</span>
-    
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;Triangle&lt;</span><span class="si">{t.s1}</span><span class="s1">,</span><span class="si">{t.s2}</span><span class="s1">,</span><span class="si">{t.s3}</span><span class="s1">&gt;&#39;</span> <span class="k">if</span> <span class="n">Triangle</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&lt;Invalid Triangle&gt;&#39;</span>
-    
-    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">surface</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">Triangle</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{Triangle.info(t)} drawn on </span><span class="si">{surface}</span><span class="s1">&#39;</span><span class="p">)</span>
-        
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_triangle</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">Triangle</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="n">Triangle</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="s1">&#39;paper&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Perimeter is {Triangle.perimeter(t)}&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid Triangle&#39;</span><span class="p">)</span>
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t1</span><span class="o">=</span><span class="n">Triangle</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">test_triangle</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Triangle&lt;3,4,5&gt; drawn on paper
-Perimeter is 12
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Let-re-check-the-structures">Let re-check the structures<a class="anchor-link" href="#Let-re-check-the-structures">&#182;</a></h3><h4 id="Triangle">Triangle<a class="anchor-link" href="#Triangle">&#182;</a></h4><ul>
-<li>Now the class defines the methods, they will appear in its dir</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">Triangle</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;, &#39;create&#39;, &#39;draw&#39;, &#39;info&#39;, &#39;is_valid&#39;, &#39;perimeter&#39;, &#39;validate&#39;]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="triangle-object-strcture">triangle object strcture<a class="anchor-link" href="#triangle-object-strcture">&#182;</a></h3><ul>
-<li>object structure includes everything from class</li>
-<li>addtional details defined for the object</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">t1</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;, &#39;create&#39;, &#39;draw&#39;, &#39;info&#39;, &#39;is_valid&#39;, &#39;perimeter&#39;, &#39;s1&#39;, &#39;s2&#39;, &#39;s3&#39;, &#39;valid&#39;, &#39;validate&#39;]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Note:">Note:<a class="anchor-link" href="#Note:">&#182;</a></h2><ul>
-<li>when we create a object from a class, it also attaches its own members (methods) to the object</li>
-</ul>
-<h3 id="Object's-Behavior">Object's Behavior<a class="anchor-link" href="#Object's-Behavior">&#182;</a></h3><ul>
-<li>consider the code below</li>
-</ul>
-<hr>
-<div class="highlight"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">Triangle</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-
-<span class="n">Triangle</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;canvas&#39;</span><span class="p">)</span>
-</pre></div>
-<hr>
-<ul>
-<li><p>observe in the statement <strong>Triangle.draw(t,'canvas')</strong>,</p>
-<ul>
-<li>Triangle is redundant</li>
-<li>It appears twice<ul>
-<li>as Triangle (class)</li>
-<li>as t (which is a Triangle)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Do I need to say the same thing twice?</p>
-</li>
-</ul>
-<h3 id="Python-Allows-calling-a-class-method-in-two-syntax">Python Allows calling a class method in two syntax<a class="anchor-link" href="#Python-Allows-calling-a-class-method-in-two-syntax">&#182;</a></h3><h4 id="1.-class-reference-syntax">1. class reference syntax<a class="anchor-link" href="#1.-class-reference-syntax">&#182;</a></h4><ul>
-<li>we have already seen this</li>
-</ul>
-<hr>
-<div class="highlight"><pre><span></span><span class="n">Triangle</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="s1">&#39;canvas&#39;</span><span class="p">)</span>
-</pre></div>
-<hr>
-<h4 id="2.-object-reference-syntax">2. object reference syntax<a class="anchor-link" href="#2.-object-reference-syntax">&#182;</a></h4><ul>
-<li><p>A class method can also be invoked using object reference <strong>Provided the class method takes object of the same class as first parameter</strong></p>
-</li>
-<li><p>we can call the above method as</p>
-</li>
-</ul>
-<hr>
-<div class="highlight"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;cnvas&#39;</span><span class="p">)</span> <span class="c1">#internally converted to : Triangle.draw(t,&#39;canvas&#39;)</span>
-</pre></div>
-<hr>
-<ul>
-<li>Not invoking object automatically becomes first parameter</li>
-<li>rest of the parameters are push by a place.</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">Triangle</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># class reference syntax</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Triangle</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="s1">&#39;canvas&#39;</span><span class="p">)</span> <span class="c1">#class reference syntax</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Triangle&lt;3,4,5&gt; drawn on canvas
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;canvas&#39;</span><span class="p">)</span> <span class="c1"># object reference syntax</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Triangle&lt;3,4,5&gt; drawn on canvas
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Note:">Note:<a class="anchor-link" href="#Note:">&#182;</a></h3><ul>
-<li><p>the object reference syntax works only if method takes the object of the same class as first parameter</p>
-</li>
-<li><p>if method takes anything else as first parameter, it can't be used using object syntax.</p>
-</li>
-<li><p>consider this code</p>
-</li>
-</ul>
-<hr>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
-        <span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">radius</span><span class="o">=</span><span class="n">r</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">r</span><span class="o">&gt;</span><span class="mi">0</span>
-
-    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">surface</span><span class="p">):</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">valid</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;drawing Circle({c.radius}) on {surface}&#39;</span><span class="p">)</span>
-</pre></div>
-<hr>
-<ul>
-<li><p>what does this method takes?</p>
-<ul>
-<li>a number and <del>not a Circle</del> object</li>
-<li>This method can't be used is object reference</li>
-</ul>
-</li>
-<li><p>How do I know this mehtod doesn't take a Circle? How will python know?</p>
-<ul>
-<li>there is no strong type in python</li>
-<li>the intent or usage can help us infer the type</li>
-<li>example: consider the statement <strong>r&gt;0</strong> <ul>
-<li>it indicates that r is a number (not sure int or float)</li>
-<li>it is not a circle</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="How-an-object-reference-is-resolved">How an object reference is resolved<a class="anchor-link" href="#How-an-object-reference-is-resolved">&#182;</a></h3><ul>
-<li><p>when you write <strong>x.do_something(y)</strong>, python will do the following</p>
-<ol>
-<li>check the <strong>type(x)</strong>  ---&gt;let us say it is <strong>SomeClass</strong></li>
-<li>check if <strong>SomeClass</strong> contains a method <strong>do_something</strong><ul>
-<li>if yes, call the method as <strong>SomeClass.do_something(x,y)</strong></li>
-<li>if no raise Error</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
-        <span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">radius</span><span class="o">=</span><span class="n">r</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">r</span><span class="o">&gt;</span><span class="mi">0</span>
-        
-    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">surface</span><span class="p">):</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">valid</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;drawing Circle(</span><span class="si">{c.radius}</span><span class="s1">) on </span><span class="si">{surface}</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h5 id="calling-a-class-method-(that-doesn't-take-object-of-same-class)-using-object-reference">calling a class method (that doesn't take object of same class) using object reference<a class="anchor-link" href="#calling-a-class-method-(that-doesn't-take-object-of-same-class)-using-object-reference">&#182;</a></h5><ul>
-<li>it will pass object as additional parameter</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="c1"># Circle.create(c,7)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                        Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-61-61cf5a82d2b7&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>c<span class="ansi-yellow-intense-fg ansi-bold">.</span>create<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-cyan-intense-fg ansi-bold">7</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-red-intense-fg ansi-bold"># Circle.create(c,7)</span>
-
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: create() takes 1 positional argument but 2 were given</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="what-if-we-dont'-pass-7">what if we dont' pass 7<a class="anchor-link" href="#what-if-we-dont'-pass-7">&#182;</a></h4><hr>
-<div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
-</pre></div>
-<hr>
-<ul>
-<li><p>this will become:  Circle.create(c)</p>
-</li>
-<li><p>function shall be called</p>
-</li>
-<li><p>but line <strong>c&gt;0</strong> will try to compare a <strong>circle</strong> and a <strong>number</strong></p>
-</li>
-<li>it will also create a second circle as per the logic</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">create</span><span class="p">()</span> <span class="c1"># Circle.create(c)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                        Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-62-66836480a5b8&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>c<span class="ansi-yellow-intense-fg ansi-bold">.</span>create<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-red-intense-fg ansi-bold"># Circle.create(c)</span>
-
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-59-8c6ff6485b0d&gt;</span> in <span class="ansi-cyan-fg">create</span><span class="ansi-blue-intense-fg ansi-bold">(r)</span>
-<span class="ansi-green-fg">      3</span>         c<span class="ansi-yellow-intense-fg ansi-bold">=</span>Circle<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">      4</span>         c<span class="ansi-yellow-intense-fg ansi-bold">.</span>radius<span class="ansi-yellow-intense-fg ansi-bold">=</span>r
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 5</span><span class="ansi-yellow-intense-fg ansi-bold">         </span>c<span class="ansi-yellow-intense-fg ansi-bold">.</span>valid<span class="ansi-yellow-intense-fg ansi-bold">=</span>r<span class="ansi-yellow-intense-fg ansi-bold">&gt;</span><span class="ansi-cyan-intense-fg ansi-bold">0</span>
-<span class="ansi-green-fg">      6</span> 
-<span class="ansi-green-fg">      7</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> draw<span class="ansi-yellow-intense-fg ansi-bold">(</span>c<span class="ansi-yellow-intense-fg ansi-bold">,</span> surface<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: &#39;&gt;&#39; not supported between instances of &#39;Circle&#39; and &#39;int&#39;</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Naming-Convention">Naming Convention<a class="anchor-link" href="#Naming-Convention">&#182;</a></h2><ul>
-<li><p>python community recommends that a class method taking the same class object as the first parameter should be called <strong>self</strong></p>
-</li>
-<li><p><strong>self</strong> can be compared with <strong>this</strong> of c++ style languages except</p>
-<ol>
-<li><p>this is a language keyword and is not changeable</p>
-<ul>
-<li><strong>self</strong> is a conventional name</li>
-<li>you can call it anything you like example<ul>
-<li>t</li>
-<li>me</li>
-<li>event <strong>this</strong></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>this is passed implicitly.</p>
-<ul>
-<li><strong>self</strong> must be passed explicitly</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-
-<pre><code>3. this is optional inside a c++ class method to access properties
-    * you use it only to make field name distinct from parametrer
-
-    * **self** is always explicit and must be used at all times to refer obejct property or behavior
-
-
-
-</code></pre>
-<h3 id="Summary">Summary<a class="anchor-link" href="#Summary">&#182;</a></h3><ol>
-<li>Every method in a class can always be called using <strong>class reference</strong></li>
-<li><p>If a method takes <strong>self</strong> (object of same type) it can and <strong>should</strong> be called <strong>object</strong> reference.</p>
-<ul>
-<li>they are referred as <strong>object level or instance methods</strong></li>
-<li>they can be compared with <strong>non-static</strong> method of c++ style language</li>
-<li><strong>NOTE</strong> in c++ style language non-static methods can't be called using class reference<ul>
-<li>in python it is possible</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>If a method doesn't take <strong>self</strong>, it is considered as <strong>class level method</strong> and can be called only using <strong>class reference</strong></p>
-<ul>
-<li>these methods are comparable to <strong>static methods</strong> of c++ like langauge</li>
-</ul>
-</li>
-</ol>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="converting-create-to-self-method">converting create to self method<a class="anchor-link" href="#converting-create-to-self-method">&#182;</a></h3><h4 id="Option-1.-just-add-an-additional-sef-parameter-that-may-not-do-anything">Option 1. just add an additional sef parameter that may not do anything<a class="anchor-link" href="#Option-1.-just-add-an-additional-sef-parameter-that-may-not-do-anything">&#182;</a></h4><ul>
-<li>the original design</li>
-</ul>
-<hr>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">radius</span><span class="p">):</span>
-        <span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">radius</span><span class="o">&gt;</span><span class="mi">0</span>
-        <span class="k">return</span> <span class="n">c</span>
-<span class="o">***</span>
-</pre></div>
-<ul>
-<li>can be converted to</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">radius</span><span class="p">):</span>
-        <span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">radius</span><span class="o">&gt;</span><span class="mi">0</span>
-        <span class="k">return</span> <span class="n">c</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span> <span class="c1"># the invoking object</span>
-
-<span class="n">c</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[67]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;__main__.Circle at 0x253d4b912c8&gt;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Problem">Problem<a class="anchor-link" href="#Problem">&#182;</a></h3><ul>
-<li>here <strong>c</strong> in <strong>c.create</strong> is just a semantic decoration with no real purpose</li>
-<li>it is internally creating a new <strong>circle</strong> and assigning radius to that circle</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                   Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-68-e6786027dcfc&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>print<span class="ansi-yellow-intense-fg ansi-bold">(</span>c<span class="ansi-yellow-intense-fg ansi-bold">.</span>radius<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: &#39;Circle&#39; object has no attribute &#39;radius&#39;</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="option-2.-let-create-method-operate-on-the-passed-object">option 2. let create method operate on the passed object<a class="anchor-link" href="#option-2.-let-create-method-operate-on-the-passed-object">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">radius</span><span class="p">):</span>
-        <span class="c1">#c=Circle()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">valid</span><span class="o">=</span><span class="n">radius</span><span class="o">&gt;</span><span class="mi">0</span>
-        <span class="c1">#return c</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="n">Circle</span><span class="p">()</span> <span class="c1"># create a circle</span>
-
-<span class="n">c</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="c1"># add the radius and validate</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>7
+<pre>Circle7 (id=1570918136072) deleted
 </pre>
 </div>
 </div>
