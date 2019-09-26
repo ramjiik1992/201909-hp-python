@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>09-Shared Members</title>
+<title>10 Banking Model</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13077,183 +13077,86 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="BankAccount-Object-Model">BankAccount Object Model<a class="anchor-link" href="#BankAccount-Object-Model">&#182;</a></h2>
+<h1 id="Banking-Model">Banking Model<a class="anchor-link" href="#Banking-Model">&#182;</a></h1><ul>
+<li>A Banking system may consist of several related but differt kind of object</li>
+</ul>
+<ol>
+<li><p>BankAccount  --&gt; represents a single account in the system</p>
+<ul>
+<li>includes<ul>
+<li>account number</li>
+<li>name</li>
+<li>password</li>
+<li>balance</li>
+<li>...</li>
+<li>have its behaviors like<ul>
+<li>deposit</li>
+<li>withdraw</li>
+<li>change_password</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Bank --&gt; represents the manager of BankAccount and other Banking services</p>
+<ul>
+<li>includes<ul>
+<li>accounts</li>
+<li>bank name</li>
+<li>interest rate</li>
+<li>banking services like<ul>
+<li>deposit</li>
+<li>withdraw</li>
+<li>transfer</li>
+<li>credit interest</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="If-you-see-similar-named-methods-in-BankAccount-and-Bank-it-is-because-they-need-to-work-together">If you see similar named methods in BankAccount and Bank it is because they need to work together<a class="anchor-link" href="#If-you-see-similar-named-methods-in-BankAccount-and-Bank-it-is-because-they-need-to-work-together">&#182;</a></h4>
+<pre><code>* when you call Bank.withdraw it should effectively withdraw from some BankAccount
+* The only reason you dont directly call BankAccount.withdraw is you don't have an access it
+
+
+</code></pre>
+<h2 id="More-Banking-Objects-(may-not-be-covered)">More Banking Objects (may not be covered)<a class="anchor-link" href="#More-Banking-Objects-(may-not-be-covered)">&#182;</a></h2><ul>
+<li><p>ATM  ---&gt; A front end to the Bank</p>
+</li>
+<li><p>Transaction ---&gt; what you perform as deposit or withdraw on BankAccount</p>
+</li>
+<li><p>Customer  ---&gt; A customer may own multiple BankAcconts</p>
+</li>
+</ul>
+<h3 id="1.-BankAccount">1. BankAccount<a class="anchor-link" href="#1.-BankAccount">&#182;</a></h3><ul>
+<li>account will be created by the Bank</li>
+<li>account number will be assigned by the Bank</li>
+<li>accont object will not have<ul>
+<li>account_count</li>
+<li>interest_rate</li>
+</ul>
+</li>
+</ul>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">,</span><span class="n">interest_rate</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="nb">id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="c1">#creates the field which may note be created by next line</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="c1">#ensures that name entered is valid.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">password</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">interest_rate</span>
-        
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
     
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
-    
-    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">value</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span>
-    
-    <span class="nd">@interest_rate</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">value</span>
-        
-    <span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">==</span><span class="n">password</span>
-    
-    <span class="k">def</span> <span class="nf">change_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oldPassword</span><span class="p">,</span><span class="n">newPassword</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">oldPassword</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">newPassword</span>
-            
-            
-    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="n">amount</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        
-    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">-=</span><span class="n">amount</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    
-    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">interest_rate</span><span class="p">)</span>
-    
-    
-    <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">3</span> <span class="ow">and</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
-    
-            
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Problem">Problem<a class="anchor-link" href="#Problem">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Vivek D Mishra&#39;</span><span class="p">,</span> <span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Prabhat Singh&#39;</span><span class="p">,</span><span class="s1">&#39;w0rd&#39;</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek D Mishra	12
-1	50000	Prabhat Singh	15
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Problem">Problem<a class="anchor-link" href="#Problem">&#182;</a></h2><ul>
-<li><p>account number is same</p>
-<ul>
-<li>should always be unqiue</li>
-</ul>
-</li>
-<li><p>for same type of <strong>BankAccount</strong>, the <strong>interst_rate</strong> should be same.</p>
-</li>
-</ul>
-<h4 id="Note:-This-is-not-a-python's-problem.-Its-a-Domain-Problem.-Design-Issue">Note: This is not a python's problem. Its a Domain Problem. Design Issue<a class="anchor-link" href="#Note:-This-is-not-a-python's-problem.-Its-a-Domain-Problem.-Design-Issue">&#182;</a></h4><ul>
-<li>How do I ensure that <ol>
-<li>same interest rate is applied to all bank accounts</li>
-<li>every bank account has a unique id</li>
-</ol>
-</li>
-</ul>
-<h2 id="Solution">Solution<a class="anchor-link" href="#Solution">&#182;</a></h2><h3 id="1.-We-need-a-common-interest-rate">1. We need a common interest rate<a class="anchor-link" href="#1.-We-need-a-common-interest-rate">&#182;</a></h3><ul>
-<li>while each bank account object have their personal id,password,name and balance, <strong>interst rate should be shared</strong></li>
-</ul>
-<h4 id="How-to-have-a-shared-data">How to have a shared data<a class="anchor-link" href="#How-to-have-a-shared-data">&#182;</a></h4><h4 id="Option-1.-create-a-global-field-(module-level-global)">Option 1. create a global field (module level global)<a class="anchor-link" href="#Option-1.-create-a-global-field-(module-level-global)">&#182;</a></h4><ul>
-<li>python codes depends a lot on module level globals</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">interest_rate</span><span class="o">=</span><span class="mi">12</span>
-
-<span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="nb">id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="c1">#creates the field which may note be created by next line</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="c1">#ensures that name entered is valid.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">name</span> 
         <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">password</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="o">=</span><span class="s1">&#39;active&#39;</span>
         
         
     <span class="nd">@property</span>
@@ -13264,19 +13167,11 @@ div#notebook {
     
     <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">value</span>
             
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
     
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="n">interest_rate</span>
-    
-    <span class="nd">@interest_rate</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span> 
-        <span class="k">global</span> <span class="n">interest_rate</span>  <span class="c1">#inform that</span>
-        <span class="n">interest_rate</span><span class="o">=</span><span class="n">value</span>   <span class="c1"># we are changing global value</span>
         
     <span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">==</span><span class="n">password</span>
@@ -13286,7 +13181,7 @@ div#notebook {
             <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">newPassword</span>
             
             
-    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
             <span class="k">return</span> 
         
@@ -13296,7 +13191,7 @@ div#notebook {
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         
-    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
             <span class="k">return</span> 
         <span class="k">if</span> <span class="n">amount</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
@@ -13309,18 +13204,18 @@ div#notebook {
         <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">-=</span><span class="n">amount</span>
         <span class="k">return</span> <span class="kc">True</span>
     
-    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">rate</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
             <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
         
         
     <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">interest_rate</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;*&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="o">==</span><span class="s1">&#39;active&#39;</span> <span class="k">else</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
     
     
     <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">3</span> <span class="ow">and</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="o">==</span><span class="s1">&#39;active&#39;</span>
     
             
         
@@ -13331,16 +13226,142 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2.-Bank">2. Bank<a class="anchor-link" href="#2.-Bank">&#182;</a></h3><ul>
+<li><p>Bank should have</p>
+<ul>
+<li>bank accounts</li>
+<li>bank name</li>
+<li>interest rate</li>
+<li><p>max id</p>
+</li>
+<li><p>services</p>
+<ul>
+<li>to carry out transactions like<ul>
+<li>deposit</li>
+<li>withdraw</li>
+<li>transfer</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Vivek Dutta Mishra&#39;</span><span class="p">,</span> <span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Prabhat Singh&#39;</span><span class="p">,</span> <span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Bank</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">rate</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rate</span><span class="o">=</span><span class="n">rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">=</span><span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span><span class="o">=</span><span class="mi">0</span>
+    
+    <span class="k">def</span> <span class="nf">_find_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">_id</span><span class="o">==</span><span class="n">accountNumber</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">account</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">def</span> <span class="nf">_find_active_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">account</span> <span class="ow">or</span> <span class="n">account</span><span class="o">.</span><span class="n">_status</span><span class="o">!=</span><span class="s1">&#39;active&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">account</span>
+    
+    <span class="k">def</span> <span class="nf">open_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="n">new_account</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">amount</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_account</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_account</span><span class="o">.</span><span class="n">_id</span>
+    
+    
+    <span class="k">def</span> <span class="nf">close_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">==</span><span class="kc">None</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">account</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">balance</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="c1">#self._accounts.remove(account)</span>
+        <span class="n">account</span><span class="o">.</span><span class="n">_status</span><span class="o">=</span><span class="s1">&#39;closed&#39;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+        
+        
+    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="n">account</span><span class="o">.</span><span class="n">_deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="n">account</span><span class="o">.</span><span class="n">_withdraw</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">)</span>
+        
+        
+    <span class="k">def</span> <span class="nf">transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sourceAccountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">,</span> <span class="n">targetAccountNumber</span><span class="p">):</span>
+        <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">sourceAccountNumber</span><span class="p">)</span>
+        <span class="n">trgt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">targetAccountNumber</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">src</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">trgt</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">src</span><span class="o">.</span><span class="n">_withdraw</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="n">trgt</span><span class="o">.</span><span class="n">_deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">_status</span><span class="o">==</span><span class="s1">&#39;active&#39;</span><span class="p">:</span>
+                <span class="n">account</span><span class="o">.</span><span class="n">_credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rate</span><span class="p">)</span>
+                
+    <span class="k">def</span> <span class="nf">print_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+</pre></div>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">=</span><span class="n">Bank</span><span class="p">(</span><span class="s1">&#39;ICICI&#39;</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Vivek&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13353,45 +13374,13 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek Dutta Mishra	12
-1	20000	Vivek Dutta Mishra	12
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">interest_rate</span>  <span class="c1">#actually its global interest rate</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[6]:</div>
+    <div class="prompt output_prompt">Out[53]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>12</pre>
+<pre>1</pre>
 </div>
 
 </div>
@@ -13402,12 +13391,45 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">interest_rate</span><span class="o">=</span><span class="mi">10</span> <span class="c1">#sets global interst rate</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Sanjay&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Prabhat&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">30000</span><span class="p">)</span>
+<span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Shivanshi&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">50000</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[54]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>4</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13424,10 +13446,447 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek Dutta Mishra	10
-1	20000	Prabhat Singh	10
+<pre>*1	20000	Vivek
+*2	20000	Sanjay
+*3	30000	Prabhat
+*4	50000	Shivanshi
 </pre>
 </div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">close_account</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="s1">&#39;pass&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[56]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">close_account</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;wrong-pass&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[57]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">close_account</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[58]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>*1	20000	Vivek
+X2	20000	Sanjay
+*3	30000	Prabhat
+*4	50000	Shivanshi
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">close_account</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[60]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[61]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>*1	30000	Vivek
+X2	20000	Sanjay
+*3	30000	Prabhat
+*4	50000	Shivanshi
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[63]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>*1	30000	Vivek
+X2	20000	Sanjay
+*3	30000	Prabhat
+*4	50000	Shivanshi
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">credit_interest</span><span class="p">()</span>
+<span class="n">icici</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>*1	30300.0	Vivek
+X2	20000	Sanjay
+*3	30300.0	Prabhat
+*4	50500.0	Shivanshi
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[66]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>*1	29300.0	Vivek
+X2	20000	Sanjay
+*3	30300.0	Prabhat
+*4	51500.0	Shivanshi
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[68]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
 </div>
 
 </div>
@@ -13437,26 +13896,53 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Solution-2-for-shared-Member---&gt;-class-level-fields">Solution 2 for shared Member --&gt; class level fields<a class="anchor-link" href="#Solution-2-for-shared-Member---&gt;-class-level-fields">&#182;</a></h2><ul>
-<li><p>python allows us to declared fields at class level</p>
-<ul>
-<li>earlier we discussed python classes don't define states of an object</li>
+<p>icici.print_accounts()</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="s1">&#39;wrong&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[70]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Optimization">Optimization<a class="anchor-link" href="#Optimization">&#182;</a></h3><ul>
+<li><strong>_find_account</strong> doesn a linear search for account in the array<ul>
+<li>it has a performance issue</li>
 </ul>
 </li>
-<li><p>these fields are declared directly inside class (not in __init__() )</p>
-</li>
-<li><p>this field doesn't belong to object. <strong>It belongs to the class</strong></p>
-</li>
-</ul>
-<ul>
-<li><p>such fields are referred as class level or shared</p>
-</li>
-<li><p>they can be compared to <strong>static fields</strong> c++ styled languages</p>
-</li>
-<li><p>python doesn't have <strong>static keyword</strong></p>
-</li>
-<li><p>these fields can be accessed using either class reference or object reference</p>
-</li>
+<li>if a item has a unique key (Such as account number) a <strong>dict</strong> should be prefered structure of <strong>list</strong></li>
 </ul>
 
 </div>
@@ -13467,84 +13953,95 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="n">_interest_rate</span><span class="o">=</span><span class="mi">12</span> <span class="c1">#class level field</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Bank</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">rate</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rate</span><span class="o">=</span><span class="n">rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">=</span><span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span><span class="o">=</span><span class="mi">0</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="nb">id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="c1">#creates the field which may note be created by next line</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="c1">#ensures that name entered is valid.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">password</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
+    <span class="k">def</span> <span class="nf">_find_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">):</span>        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_add_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">account</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="n">account</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span>
+        <span class="c1">#self._accounts.append(new_account)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">[</span><span class="n">account</span><span class="o">.</span><span class="n">_id</span><span class="p">]</span><span class="o">=</span><span class="n">account</span>
+        <span class="k">return</span> <span class="n">account</span><span class="o">.</span><span class="n">_id</span>
+
+    <span class="k">def</span> <span class="nf">_find_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    
+    
+    <span class="k">def</span> <span class="nf">_update_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">account</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">[</span><span class="n">account</span><span class="o">.</span><span class="n">_id</span><span class="p">]</span><span class="o">=</span><span class="n">account</span>
         
+    <span class="k">def</span> <span class="nf">_find_active_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">account</span> <span class="ow">or</span> <span class="n">account</span><span class="o">.</span><span class="n">_status</span><span class="o">!=</span><span class="s1">&#39;active&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">account</span>
+    
+       
+    <span class="k">def</span> <span class="nf">open_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+        <span class="n">new_account</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">amount</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_account</span><span class="p">(</span><span class="n">new_account</span><span class="p">)</span>
         
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
     
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
     
-    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">value</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span>
-    
-    <span class="nd">@interest_rate</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>         
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">value</span>   <span class="c1"># we are changing global value</span>
-        
-    <span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">==</span><span class="n">password</span>
-    
-    <span class="k">def</span> <span class="nf">change_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oldPassword</span><span class="p">,</span><span class="n">newPassword</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">oldPassword</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">newPassword</span>
-            
-            
-    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="n">amount</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">close_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">==</span><span class="kc">None</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">account</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">balance</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         
-    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">-=</span><span class="n">amount</span>
+        <span class="c1">#self._accounts.remove(account)</span>
+        <span class="n">account</span><span class="o">.</span><span class="n">_status</span><span class="o">=</span><span class="s1">&#39;closed&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_account</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
+        
+        
+    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="n">account</span><span class="o">.</span><span class="n">_deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="n">account</span><span class="o">.</span><span class="n">_withdraw</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">)</span>
+        
+        
+    <span class="k">def</span> <span class="nf">transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sourceAccountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">,</span> <span class="n">targetAccountNumber</span><span class="p">):</span>
+        <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">sourceAccountNumber</span><span class="p">)</span>
+        <span class="n">trgt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">targetAccountNumber</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">src</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">trgt</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">src</span><span class="o">.</span><span class="n">_withdraw</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="n">trgt</span><span class="o">.</span><span class="n">_deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
-    
-    
-    <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">3</span> <span class="ow">and</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
-    
-            
-        
+        <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_accounts</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">_status</span><span class="o">==</span><span class="s1">&#39;active&#39;</span><span class="p">:</span>
+                <span class="n">account</span><span class="o">.</span><span class="n">_credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rate</span><span class="p">)</span>
+                
+    <span class="k">def</span> <span class="nf">print_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_accounts</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -13557,47 +14054,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Vivek Dutta Mishra&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Prabhat Singh&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">=</span><span class="n">Bank</span><span class="p">(</span><span class="s1">&#39;ICICI&#39;</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek Dutta Mishra	12
-1	20000	Prabhat Singh	12
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[10]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>12</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -13607,7 +14067,9 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">_interest_rate</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Sanjay&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Prabhat&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">30000</span><span class="p">)</span>
+<span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Shivanshi&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">50000</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13626,9 +14088,42 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>12</pre>
+<pre>3</pre>
 </div>
 
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>*1	20000	Sanjay
+*2	30000	Prabhat
+*3	50000	Shivanshi
+</pre>
+</div>
 </div>
 
 </div>
@@ -13640,10 +14135,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="mi">10</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">.</span><span class="n">close_account</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">)</span>
+<span class="n">icici</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13660,80 +14153,9 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek Dutta Mishra	10
-1	20000	Prabhat Singh	10
-10
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="mi">18</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek Dutta Mishra	18
-1	20000	Prabhat Singh	10
-10
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">credit_interest</span><span class="p">()</span>
-<span class="n">a2</span><span class="o">.</span><span class="n">credit_interest</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20166.666666666668	Vivek Dutta Mishra	18
-1	20166.666666666668	Prabhat Singh	10
+<pre>*1	20000	Sanjay
+X2	30000	Prabhat
+*3	50000	Shivanshi
 </pre>
 </div>
 </div>
@@ -13745,565 +14167,217 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="shared-class-member-and-object-reference">shared class member and object reference<a class="anchor-link" href="#shared-class-member-and-object-reference">&#182;</a></h2><h4 id="1.-accessing/getting-the-values">1. accessing/getting the values<a class="anchor-link" href="#1.-accessing/getting-the-values">&#182;</a></h4><ul>
-<li><p>whenever we write <strong>obj.something</strong></p>
-<ol>
-<li><p>python checks if <strong>obj</strong> has its own field/property <strong>something</strong></p>
+<h2 id="Refactoring-The-Application">Refactoring The Application<a class="anchor-link" href="#Refactoring-The-Application">&#182;</a></h2><ul>
+<li>consider the functions in  Bank class</li>
+<li><p>There are few with <strong>underscored prefix</strong></p>
 <ul>
-<li>if yes returns its value</li>
+<li>_add_account</li>
+<li>_find_account</li>
+<li>_find_accounts</li>
+<li>_update_account</li>
 </ul>
 </li>
-<li><p>if own property/field <strong>something</strong> doesn't exist</p>
+<li><p>There are other functions which are <strong>Not</strong> underscored</p>
 <ul>
-<li><p>python checks the <strong>type(obj)</strong>  --&gt; lests same <strong>SomeClass</strong></p>
+<li>open_account</li>
+<li>deposit</li>
+<li>withdraw</li>
+</ul>
 </li>
-<li><p>Now it checks if there is a <strong>SomeClass.something</strong></p>
+<li><p>Is there a specific reason for having and not having underscore?</p>
+</li>
+<li><p>Do I need two functions <strong>_add_account</strong> and <strong>open_account</strong>?</p>
+</li>
+</ul>
+<h3 id="Design-Details">Design Details<a class="anchor-link" href="#Design-Details">&#182;</a></h3><ul>
+<li><p>the public interfaces <strong>open_account</strong>, <strong>deposit</strong>, <strong>withdraw</strong> etc are  <strong>Banking Operations</strong></p>
 <ul>
-<li>if found returns the value</li>
+<li>they define the Business</li>
 </ul>
 </li>
+<li><p>the private memebers  (in this case) represents a <strong>storage</strong> and not Banking</p>
+</li>
+<li><p>These are associate and yet independent concerns</p>
+</li>
+<li><p>Being together is violation of <strong>Single Responsibility</strong> Principle</p>
+</li>
 </ul>
-</li>
-<li><p>if <strong>something</strong> doesn't exist either in <strong>obj</strong> or its class it raises <strong>AttributeError</strong></p>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="2-setting-a-value">2 setting a value<a class="anchor-link" href="#2-setting-a-value">&#182;</a></h4><ul>
-<li><p>whenever we write <strong>obj.something=value</strong></p>
-<ol>
-<li><p>python checks if <strong>something</strong> exists as <strong>self</strong> property/field for <strong>obj</strong></p>
+<h3 id="Note:">Note:<a class="anchor-link" href="#Note:">&#182;</a></h3><ul>
+<li><p>A private method in object X may actually be</p>
 <ul>
-<li>if yes, value is replaced</li>
+<li>a public mehtod of some object Y which is contained inside object X</li>
 </ul>
 </li>
-<li><p>If there is no <strong>self</strong> property <strong>something</strong> in <strong>obj</strong></p>
+<li><p>A car should not have a private method <strong>_engine_start</strong></p>
 <ul>
-<li>it creates a new property and assigns the vlue</li>
+<li>there should be a <strong>engine</strong> object with <strong>start()</strong> </li>
+<li>A car should have engine</li>
 </ul>
 </li>
-</ol>
+<li><p>wrong design</p>
 </li>
 </ul>
-<h4 id="Python-never-changes-a-shared-field-using-object-reference">Python never changes a shared field using object reference<a class="anchor-link" href="#Python-never-changes-a-shared-field-using-object-reference">&#182;</a></h4><hr>
-<div class="highlight"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;V&#39;</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># { id:1, name:&#39;V&#39; ,pass:&#39;x&#39;, balance:2} BankAccount.interest_rate=12</span>
+<hr>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine_piston</span><span class="o">=</span><span class="s1">&#39;piston&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine_capacity</span><span class="o">=</span><span class="s1">&#39;capacity&#39;</span>
 
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;P&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># { id:1, name:&#39;P&#39; ,pass:&#39;y&#39;, balance:2} BankAccount.interest_rate=12</span>
+    <span class="k">def</span> <span class="nf">_start_engine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;engine started&#39;</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_start_electic_component</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;electric compoennt started&#39;</span><span class="p">)</span>
 
-<span class="n">a1</span><span class="o">.</span><span class="n">interest_rate</span><span class="o">=</span><span class="mi">10</span> <span class="c1">## { id:1, name:&#39;V&#39; ,pass:&#39;x&#39;, balance:2, interest_rate:10} BankAccount.interest_rate=12</span>
-
-
-<span class="k">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">interest_rate</span><span class="p">)</span> <span class="c1"># prints self.interst_rate --&gt;10</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">interest_rate</span><span class="p">)</span> <span class="c1"># prints BankAccount.interst_rate as there is no self.interest_rate</span>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start_engine</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start_electric_component</span><span class="p">()</span>
 </pre></div>
 <hr>
 <ul>
-<li>account1._interest_rate and account2_interst_rate may differ</li>
+<li>Prefer a design like</li>
 </ul>
-<h2 id="Important">Important<a class="anchor-link" href="#Important">&#182;</a></h2><ul>
-<li>while you can, <strong>NEVER NEVER</strong> access class field with object reference</li>
-</ul>
-<h2 id="Lets-define-the-unique-account-number">Lets define the unique account number<a class="anchor-link" href="#Lets-define-the-unique-account-number">&#182;</a></h2><ul>
-<li>define a shared field <strong>account_count</strong></li>
-<li>increment it for each new account</li>
-</ul>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Engine</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_piston</span><span class="o">=</span><span class="s1">&#39;piston&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span><span class="o">=</span><span class="s1">&#39;capacity&#39;</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;engine started&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">ElectricComponent</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;electric compoennt started&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">=</span><span class="n">Engine</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ec</span><span class="o">=</span><span class="n">ElectricComponent</span><span class="p">()</span>
+
+
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ec</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+<hr>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="n">_interest_rate</span><span class="o">=</span><span class="mi">12</span> <span class="c1">#class level field</span>
-    <span class="n">_account_count</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">):</span>
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span><span class="o">+=</span><span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Bank</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">rate</span><span class="p">,</span><span class="n">store</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rate</span><span class="o">=</span><span class="n">rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="o">=</span><span class="n">store</span>
+        
+    
+    
+    <span class="k">def</span> <span class="nf">_find_active_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">find_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">account</span> <span class="ow">or</span> <span class="n">account</span><span class="o">.</span><span class="n">_status</span><span class="o">!=</span><span class="s1">&#39;active&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">account</span>
+    
+       
+    <span class="k">def</span> <span class="nf">open_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+        <span class="n">new_account</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">amount</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">add_account</span><span class="p">(</span><span class="n">new_account</span><span class="p">)</span>
+        
+    
+    
+    <span class="k">def</span> <span class="nf">close_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">==</span><span class="kc">None</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">account</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">balance</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="c1">#self._accounts.remove(account)</span>
+        <span class="n">account</span><span class="o">.</span><span class="n">_status</span><span class="o">=</span><span class="s1">&#39;closed&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">update_account</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
         
         
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
+    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="n">result</span><span class="o">=</span><span class="n">account</span><span class="o">.</span><span class="n">_deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">update_account</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
     
-    
-    <span class="k">def</span> <span class="nf">get_interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span>
-    
-    
-    <span class="k">def</span> <span class="nf">set_interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>         
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">value</span>   <span class="c1"># we are changing global value</span>
+    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
+        <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_active_account</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="n">result</span><span class="o">=</span><span class="n">account</span><span class="o">.</span><span class="n">_withdraw</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">update_account</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+        
+        
+    <span class="k">def</span> <span class="nf">transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sourceAccountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">,</span> <span class="n">targetAccountNumber</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">sourceAccountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">targetAccountNumber</span><span class="p">,</span><span class="n">amount</span><span class="p">)</span>
+        
         
     
     <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">find_accounts</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">_status</span><span class="o">==</span><span class="s1">&#39;active&#39;</span><span class="p">:</span>
+                <span class="n">account</span><span class="o">.</span><span class="n">_credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rate</span><span class="p">)</span>
+                
+        <span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">update_account</span><span class="p">()</span> <span class="c1"># updates all account</span>
+                
+    <span class="k">def</span> <span class="nf">print_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">find_accounts</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DictAccountStore</span><span class="p">:</span>
     
-            
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">=</span><span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span><span class="o">=</span><span class="mi">0</span>
+    
+    <span class="k">def</span> <span class="nf">find_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">):</span>        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">accountNumber</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">add_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">account</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="n">account</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span>
         
-</pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">[</span><span class="n">account</span><span class="o">.</span><span class="n">_id</span><span class="p">]</span><span class="o">=</span><span class="n">account</span>
+        <span class="k">return</span> <span class="n">account</span><span class="o">.</span><span class="n">_id</span>
 
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">,</span><span class="mi">5000</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	12
-2	5000	12
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="whose-intest-rate-is-changes--when-we-use-below-code?">whose intest rate is changes  when we use below code?<a class="anchor-link" href="#whose-intest-rate-is-changes--when-we-use-below-code?">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">set_interest_rate</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	15
-2	5000	15
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Problem">Problem<a class="anchor-link" href="#Problem">&#182;</a></h2><ul>
-<li><p>it looks liek <strong>a1.set_interest_rate(15)</strong> is updating interest for object <strong>a1</strong></p>
-</li>
-<li><p>it is actually modifying for everyone</p>
-</li>
-</ul>
-<h3 id="Solution">Solution<a class="anchor-link" href="#Solution">&#182;</a></h3><ul>
-<li><p>a class level field should be accessed only using class level methods</p>
-</li>
-<li><p>every method is python is classlevel (semantically)</p>
-</li>
-<li><p>designwise a class level method is one that doesn't take <strong>self</strong> and hence can't be called using object reference</p>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="n">_interest_rate</span><span class="o">=</span><span class="mi">12</span> <span class="c1">#class level field</span>
-    <span class="n">_account_count</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">):</span>
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span><span class="o">+=</span><span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
-        
-        
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
+    <span class="k">def</span> <span class="nf">find_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
     
     
-    <span class="k">def</span> <span class="nf">get_interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span>
-    
-    
-    <span class="k">def</span> <span class="nf">set_interest_rate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>         
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">value</span>   <span class="c1"># we are changing global value</span>
+    <span class="k">def</span> <span class="nf">update_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">account</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">account</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">[</span><span class="n">account</span><span class="o">.</span><span class="n">_id</span><span class="p">]</span><span class="o">=</span><span class="n">account</span>
         
-    
-    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">():</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
-    
-            
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">,</span><span class="mi">5000</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	12
-2	5000	12
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BankAccount</span><span class="o">.</span><span class="n">set_interest_rate</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	15
-2	5000	15
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">set_interest_rate</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                        Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-43-f3497c3d8a4e&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>a1<span class="ansi-yellow-intense-fg ansi-bold">.</span>set_interest_rate<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-cyan-intense-fg ansi-bold">20</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: set_interest_rate() takes 1 positional argument but 2 were given</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Python-3">Python 3<a class="anchor-link" href="#Python-3">&#182;</a></h2><ul>
-<li>like python 2 includes @staticmethod decoarator</li>
-<li>this however in python 3 is optional (I <strong>strongly recommend</strong> using it))</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="n">_interest_rate</span><span class="o">=</span><span class="mi">12</span> <span class="c1">#class level field</span>
-    <span class="n">_account_count</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">):</span>
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span><span class="o">+=</span><span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
-        
-        
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
-    
-    
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_interest_rate</span><span class="p">():</span> <span class="k">return</span> <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span>
-    
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">set_interest_rate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>         
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">value</span>   <span class="c1"># we are changing global value</span>
-        
-    
-    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">():</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
-    
-            
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BankAccount</span><span class="o">.</span><span class="n">get_interest_rate</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[46]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>12</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Python-doesn't-support-class-level-properties">Python doesn't support class level properties<a class="anchor-link" href="#Python-doesn't-support-class-level-properties">&#182;</a></h4><h1 id="Aside:-Do-we-need-shared-class-level-members-(In-any-programming-language)">Aside: Do we need shared class level members (In any programming language)<a class="anchor-link" href="#Aside:-Do-we-need-shared-class-level-members-(In-any-programming-language)">&#182;</a></h1><ul>
-<li><p>A class is a conceptually a blue print of an object</p>
-<ul>
-<li>it describes what an object should have</li>
-<li>it is <strong>considered</strong> to be abstract (or non-existant)</li>
-</ul>
-</li>
-<li><p>A class level members (a.k.a static member) doesn't require an object</p>
-<ul>
-<li>Are we really talking about <strong>object oriented programming</strong></li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>A class level member is used with class reference<ul>
-<li><strong>class oriented design</strong> or <strong>object oriented design</strong></li>
-</ul>
-</li>
-</ul>
-<h4 id="Use-case">Use case<a class="anchor-link" href="#Use-case">&#182;</a></h4><ul>
-<li><p>can a <strong>bank account</strong></p>
-<ul>
-<li>know total number of accounts?</li>
-<li>own (or control) interest rate?</li>
-</ul>
-</li>
-<li><p>If <strong>NO</strong> why should <strong>BankAccount</strong> class include those info?</p>
-</li>
-<li><p>Who owns these info --- <strong>Bank</strong></p>
-</li>
-</ul>
-<h3 id="Remember">Remember<a class="anchor-link" href="#Remember">&#182;</a></h3><ul>
-<li><p>every <strong>seemingly</strong> class level member of a class <strong>X</strong>, in reality is part of some object <strong>y</strong> of may be class <strong>Y</strong></p>
-</li>
-<li><p>for every class level member we should ask ---&gt; which object owns it?</p>
-</li>
-<li><p>A class level member essentially ignores another object in our system -- which is a <strong>design defect</strong></p>
-</li>
-</ul>
-<h4 id="Do-we-need-Bank-class-only-to-hold-account_count-and-interest_rate?">Do we need Bank class only to hold account_count and interest_rate?<a class="anchor-link" href="#Do-we-need-Bank-class-only-to-hold-account_count-and-interest_rate?">&#182;</a></h4><ul>
-<li>Who creates BankAccount?</li>
-<li>who manages BankAccount?</li>
-<li>Who credits interest?</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>
@@ -14316,19 +14390,90 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">=</span><span class="n">Bank</span><span class="p">(</span><span class="s1">&#39;ICICI&#39;</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ListAccountStore</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span><span class="o">=</span><span class="mi">0</span>
+    
+    <span class="k">def</span> <span class="nf">find_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountNumber</span><span class="p">):</span>        
+        <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">_id</span><span class="o">==</span><span class="n">accountNumber</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">account</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">def</span> <span class="nf">add_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">account</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="n">account</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_max_id</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">account</span><span class="o">.</span><span class="n">_id</span>
 
-<span class="n">a1</span><span class="o">=</span><span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Vivek&#39;</span><span class="p">,</span> <span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">2000</span><span class="p">)</span> <span class="c1">#return account number</span>
+    <span class="k">def</span> <span class="nf">find_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span>
+    
+    
+    <span class="k">def</span> <span class="nf">update_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">account</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">account</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">while</span> <span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">_id</span><span class="o">==</span><span class="n">account</span><span class="o">.</span><span class="n">_id</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">account</span>
+                    <span class="k">break</span>
+                    
+                <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+                    
+                
+        
+</pre></div>
 
-<span class="n">a2</span><span class="o">=</span><span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Prabhat&#39;</span><span class="p">,</span><span class="s1">&#39;word&#39;</span><span class="p">,</span><span class="mi">5000</span><span class="p">)</span>
+    </div>
+</div>
+</div>
 
-<span class="n">icici</span><span class="o">.</span><span class="n">transfer_fund</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">a2</span><span class="p">)</span>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_bank</span><span class="p">(</span><span class="n">store</span><span class="p">):</span>
+    <span class="n">bank</span><span class="o">=</span><span class="n">Bank</span><span class="p">(</span><span class="s1">&#39;Test Bank&#39;</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="n">store</span><span class="p">)</span>
+    <span class="n">bank</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Account1&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
+    <span class="n">bank</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Account2&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
+    <span class="n">bank</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Account3&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
+    <span class="n">bank</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span>
+    <span class="n">bank</span><span class="o">.</span><span class="n">close_account</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">)</span>
+    <span class="n">bank</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5000</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">bank</span><span class="o">.</span><span class="n">credit_interest</span><span class="p">()</span>
+    <span class="n">bank</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span>
+    
+</pre></div>
 
-<span class="n">icici</span><span class="o">.</span><span class="n">credit_interest</span><span class="p">()</span> <span class="c1"># to all bank accounts gets 12%</span>
+    </div>
+</div>
+</div>
 
-<span class="n">icici</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span> <span class="c1"># prints all accounts</span>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">store</span><span class="o">=</span><span class="n">DictAccountStore</span><span class="p">()</span>
+</pre></div>
 
-<span class="n">icici</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_bank</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14344,18 +14489,50 @@ div#notebook {
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>                        Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-47-5133cb1d039a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>icici<span class="ansi-yellow-intense-fg ansi-bold">=</span>Bank<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;ICICI&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-cyan-intense-fg ansi-bold">12</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">      2</span> 
-<span class="ansi-green-fg">      3</span> a1<span class="ansi-yellow-intense-fg ansi-bold">=</span>icici<span class="ansi-yellow-intense-fg ansi-bold">.</span>open_account<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;Vivek&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">&#39;p@ss&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-cyan-intense-fg ansi-bold">2000</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-red-intense-fg ansi-bold">#return account number</span>
-<span class="ansi-green-fg">      4</span> 
-<span class="ansi-green-fg">      5</span> a2<span class="ansi-yellow-intense-fg ansi-bold">=</span>icici<span class="ansi-yellow-intense-fg ansi-bold">.</span>open_account<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;Prabhat&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-blue-intense-fg ansi-bold">&#39;word&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-cyan-intense-fg ansi-bold">5000</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>*1	20000	Account1
+*2	20000	Account2
+*3	20000	Account3
+*1	15150.0	Account1
+X2	20000	Account2
+*3	25250.0	Account3
+</pre>
+</div>
+</div>
 
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;Bank&#39; is not defined</pre>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_bank</span><span class="p">(</span><span class="n">ListAccountStore</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>*1	20000	Account1
+*2	20000	Account2
+*3	20000	Account3
+*1	15150.0	Account1
+X2	20000	Account2
+*3	25250.0	Account3
+</pre>
 </div>
 </div>
 

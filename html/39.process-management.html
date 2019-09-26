@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>09-Shared Members</title>
+<title>39.process-management</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13017,6 +13017,45 @@ ul.typeahead-list  > li > a.pull-right {
 .highlight .vm { color: #19177C } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
     </style>
+<style type="text/css">
+    
+/* Temporary definitions which will become obsolete with Notebook release 5.0 */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+
+    </style>
 
 
 <style type="text/css">
@@ -13050,7 +13089,7 @@ div#notebook {
 
 <!-- Loading mathjax macro -->
 <!-- Load mathjax -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_HTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
     <!-- MathJax configuration -->
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -13077,7 +13116,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="BankAccount-Object-Model">BankAccount Object Model<a class="anchor-link" href="#BankAccount-Object-Model">&#182;</a></h2>
+<h1 id="process-management">process management<a class="anchor-link" href="#process-management">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -13086,81 +13125,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">,</span><span class="n">interest_rate</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="nb">id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="c1">#creates the field which may note be created by next line</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="c1">#ensures that name entered is valid.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">password</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">interest_rate</span>
-        
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
-    
-    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">value</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span>
-    
-    <span class="nd">@interest_rate</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">value</span>
-        
-    <span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">==</span><span class="n">password</span>
-    
-    <span class="k">def</span> <span class="nf">change_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oldPassword</span><span class="p">,</span><span class="n">newPassword</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">oldPassword</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">newPassword</span>
-            
-            
-    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="n">amount</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        
-    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">-=</span><span class="n">amount</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    
-    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">interest_rate</span><span class="p">)</span>
-    
-    
-    <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">3</span> <span class="ow">and</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
-    
-            
-        
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 </pre></div>
 
     </div>
@@ -13168,23 +13133,79 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Problem">Problem<a class="anchor-link" href="#Problem">&#182;</a></h2>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;dir&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Vivek D Mishra&#39;</span><span class="p">,</span> <span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Prabhat Singh&#39;</span><span class="p">,</span><span class="s1">&#39;w0rd&#39;</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;dir *.*&#39;</span><span class="p">)</span>
+</pre></div>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">stream</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;dir *.ipynb &#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -13201,132 +13222,49 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek D Mishra	12
-1	50000	Prabhat Singh	15
+<pre> Volume in drive C is Windows
+ Volume Serial Number is DCB7-12F4
+
+ Directory of C:\myworks\Corporate\201812-hp-python\jupyter
+
+14-12-2018  09:09            29,241 00-PythonVersionAlerts.ipynb
+10-12-2018  11:37             4,152 01-HelloPython.ipynb
+10-12-2018  13:38            14,166 02-BasicPythonTypesAndOperators.ipynb
+10-12-2018  15:54            38,677 03-string-and-print.ipynb
+11-12-2018  09:53            20,862 04-python-statements.ipynb
+12-12-2018  10:35            39,401 05-Functions.ipynb
+11-12-2018  16:02            60,876 06-Sequences.ipynb
+11-12-2018  14:36            21,773 07-Functions-Part-2.ipynb
+12-12-2018  11:01            13,724 08-Assignment.ipynb
+12-12-2018  11:16             2,992 09-Function-Part-3.ipynb
+12-12-2018  11:26             6,455 10-Global-Problems.ipynb
+12-12-2018  15:04            23,682 11-Modules.ipynb
+12-12-2018  16:13             6,721 12-describing-a-triangle.ipynb
+13-12-2018  10:02            22,945 13-ClassAndObject.ipynb
+13-12-2018  11:11            12,364 14-ObjectAndMethods.ipynb
+13-12-2018  11:44            11,785 15-ObjectCreation.ipynb
+13-12-2018  12:37            25,371 16-ScopeRule.ipynb
+13-12-2018  15:12            14,441 17-AssignmentEmployeeManagement.ipynb
+14-12-2018  08:57            23,438 18-ObjectHierarchy.ipynb
+14-12-2018  10:32            17,127 19-Multiple-Inheritance.ipynb
+14-12-2018  12:34            44,124 20-ExceptionAndErrorHandling.ipynb
+14-12-2018  14:09            22,797 21 - LinkedList.ipynb
+14-12-2018  14:42            14,388 22-Python-Special-Class-Functions.ipynb
+14-12-2018  15:06             7,434 23-Iterator.ipynb
+14-12-2018  15:25             9,369 34 File IO.ipynb
+14-12-2018  15:28             7,361 35 BankCSV.ipynb
+14-12-2018  15:29            11,038 36 Bank Sql Data Access.ipynb
+26-10-2018  15:25             4,724 37 Python 2 Threads.ipynb
+14-12-2018  15:30            10,243 38.ftp.ipynb
+29-10-2017  22:46            15,957 39.process-management.ipynb
+30-10-2017  16:37             4,165 40.smtp.ipynb
+              31 File(s)        561,793 bytes
+               0 Dir(s)  831,256,371,200 bytes free
+
 </pre>
 </div>
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Problem">Problem<a class="anchor-link" href="#Problem">&#182;</a></h2><ul>
-<li><p>account number is same</p>
-<ul>
-<li>should always be unqiue</li>
-</ul>
-</li>
-<li><p>for same type of <strong>BankAccount</strong>, the <strong>interst_rate</strong> should be same.</p>
-</li>
-</ul>
-<h4 id="Note:-This-is-not-a-python's-problem.-Its-a-Domain-Problem.-Design-Issue">Note: This is not a python's problem. Its a Domain Problem. Design Issue<a class="anchor-link" href="#Note:-This-is-not-a-python's-problem.-Its-a-Domain-Problem.-Design-Issue">&#182;</a></h4><ul>
-<li>How do I ensure that <ol>
-<li>same interest rate is applied to all bank accounts</li>
-<li>every bank account has a unique id</li>
-</ol>
-</li>
-</ul>
-<h2 id="Solution">Solution<a class="anchor-link" href="#Solution">&#182;</a></h2><h3 id="1.-We-need-a-common-interest-rate">1. We need a common interest rate<a class="anchor-link" href="#1.-We-need-a-common-interest-rate">&#182;</a></h3><ul>
-<li>while each bank account object have their personal id,password,name and balance, <strong>interst rate should be shared</strong></li>
-</ul>
-<h4 id="How-to-have-a-shared-data">How to have a shared data<a class="anchor-link" href="#How-to-have-a-shared-data">&#182;</a></h4><h4 id="Option-1.-create-a-global-field-(module-level-global)">Option 1. create a global field (module level global)<a class="anchor-link" href="#Option-1.-create-a-global-field-(module-level-global)">&#182;</a></h4><ul>
-<li>python codes depends a lot on module level globals</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">interest_rate</span><span class="o">=</span><span class="mi">12</span>
-
-<span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="nb">id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="c1">#creates the field which may note be created by next line</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="c1">#ensures that name entered is valid.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">password</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
-        
-        
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
-    
-    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">value</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="n">interest_rate</span>
-    
-    <span class="nd">@interest_rate</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span> 
-        <span class="k">global</span> <span class="n">interest_rate</span>  <span class="c1">#inform that</span>
-        <span class="n">interest_rate</span><span class="o">=</span><span class="n">value</span>   <span class="c1"># we are changing global value</span>
-        
-    <span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">==</span><span class="n">password</span>
-    
-    <span class="k">def</span> <span class="nf">change_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oldPassword</span><span class="p">,</span><span class="n">newPassword</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">oldPassword</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">newPassword</span>
-            
-            
-    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="n">amount</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        
-    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">-=</span><span class="n">amount</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    
-    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">interest_rate</span><span class="p">)</span>
-    
-    
-    <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">3</span> <span class="ow">and</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
-    
-            
-        
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -13336,11 +13274,9 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Vivek Dutta Mishra&#39;</span><span class="p">,</span> <span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Prabhat Singh&#39;</span><span class="p">,</span> <span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;dir *.ipynb&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13353,508 +13289,17 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek Dutta Mishra	12
-1	20000	Vivek Dutta Mishra	12
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">interest_rate</span>  <span class="c1">#actually its global interest rate</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[6]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>12</pre>
+<pre>0</pre>
 </div>
 
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">interest_rate</span><span class="o">=</span><span class="mi">10</span> <span class="c1">#sets global interst rate</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek Dutta Mishra	10
-1	20000	Prabhat Singh	10
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Solution-2-for-shared-Member---&gt;-class-level-fields">Solution 2 for shared Member --&gt; class level fields<a class="anchor-link" href="#Solution-2-for-shared-Member---&gt;-class-level-fields">&#182;</a></h2><ul>
-<li><p>python allows us to declared fields at class level</p>
-<ul>
-<li>earlier we discussed python classes don't define states of an object</li>
-</ul>
-</li>
-<li><p>these fields are declared directly inside class (not in __init__() )</p>
-</li>
-<li><p>this field doesn't belong to object. <strong>It belongs to the class</strong></p>
-</li>
-</ul>
-<ul>
-<li><p>such fields are referred as class level or shared</p>
-</li>
-<li><p>they can be compared to <strong>static fields</strong> c++ styled languages</p>
-</li>
-<li><p>python doesn't have <strong>static keyword</strong></p>
-</li>
-<li><p>these fields can be accessed using either class reference or object reference</p>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="n">_interest_rate</span><span class="o">=</span><span class="mi">12</span> <span class="c1">#class level field</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="nb">id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="c1">#creates the field which may note be created by next line</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="c1">#ensures that name entered is valid.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">password</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
-        
-        
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
-    
-    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">value</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span>
-    
-    <span class="nd">@interest_rate</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>         
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">value</span>   <span class="c1"># we are changing global value</span>
-        
-    <span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">==</span><span class="n">password</span>
-    
-    <span class="k">def</span> <span class="nf">change_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oldPassword</span><span class="p">,</span><span class="n">newPassword</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">oldPassword</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="o">=</span><span class="n">newPassword</span>
-            
-            
-    <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="n">amount</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        
-    <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">amount</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">-=</span><span class="n">amount</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    
-    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
-    
-    
-    <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">3</span> <span class="ow">and</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
-    
-            
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Vivek Dutta Mishra&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Prabhat Singh&#39;</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek Dutta Mishra	12
-1	20000	Prabhat Singh	12
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[10]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>12</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">_interest_rate</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[11]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>12</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="mi">10</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek Dutta Mishra	10
-1	20000	Prabhat Singh	10
-10
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="mi">18</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	Vivek Dutta Mishra	18
-1	20000	Prabhat Singh	10
-10
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">credit_interest</span><span class="p">()</span>
-<span class="n">a2</span><span class="o">.</span><span class="n">credit_interest</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20166.666666666668	Vivek Dutta Mishra	18
-1	20166.666666666668	Prabhat Singh	10
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="shared-class-member-and-object-reference">shared class member and object reference<a class="anchor-link" href="#shared-class-member-and-object-reference">&#182;</a></h2><h4 id="1.-accessing/getting-the-values">1. accessing/getting the values<a class="anchor-link" href="#1.-accessing/getting-the-values">&#182;</a></h4><ul>
-<li><p>whenever we write <strong>obj.something</strong></p>
-<ol>
-<li><p>python checks if <strong>obj</strong> has its own field/property <strong>something</strong></p>
-<ul>
-<li>if yes returns its value</li>
-</ul>
-</li>
-<li><p>if own property/field <strong>something</strong> doesn't exist</p>
-<ul>
-<li><p>python checks the <strong>type(obj)</strong>  --&gt; lests same <strong>SomeClass</strong></p>
-</li>
-<li><p>Now it checks if there is a <strong>SomeClass.something</strong></p>
-<ul>
-<li>if found returns the value</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>if <strong>something</strong> doesn't exist either in <strong>obj</strong> or its class it raises <strong>AttributeError</strong></p>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="2-setting-a-value">2 setting a value<a class="anchor-link" href="#2-setting-a-value">&#182;</a></h4><ul>
-<li><p>whenever we write <strong>obj.something=value</strong></p>
-<ol>
-<li><p>python checks if <strong>something</strong> exists as <strong>self</strong> property/field for <strong>obj</strong></p>
-<ul>
-<li>if yes, value is replaced</li>
-</ul>
-</li>
-<li><p>If there is no <strong>self</strong> property <strong>something</strong> in <strong>obj</strong></p>
-<ul>
-<li>it creates a new property and assigns the vlue</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="Python-never-changes-a-shared-field-using-object-reference">Python never changes a shared field using object reference<a class="anchor-link" href="#Python-never-changes-a-shared-field-using-object-reference">&#182;</a></h4><hr>
-<div class="highlight"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;V&#39;</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># { id:1, name:&#39;V&#39; ,pass:&#39;x&#39;, balance:2} BankAccount.interest_rate=12</span>
-
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;P&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># { id:1, name:&#39;P&#39; ,pass:&#39;y&#39;, balance:2} BankAccount.interest_rate=12</span>
-
-
-<span class="n">a1</span><span class="o">.</span><span class="n">interest_rate</span><span class="o">=</span><span class="mi">10</span> <span class="c1">## { id:1, name:&#39;V&#39; ,pass:&#39;x&#39;, balance:2, interest_rate:10} BankAccount.interest_rate=12</span>
-
-
-<span class="k">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">interest_rate</span><span class="p">)</span> <span class="c1"># prints self.interst_rate --&gt;10</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">interest_rate</span><span class="p">)</span> <span class="c1"># prints BankAccount.interst_rate as there is no self.interest_rate</span>
-</pre></div>
-<hr>
-<ul>
-<li>account1._interest_rate and account2_interst_rate may differ</li>
-</ul>
-<h2 id="Important">Important<a class="anchor-link" href="#Important">&#182;</a></h2><ul>
-<li>while you can, <strong>NEVER NEVER</strong> access class field with object reference</li>
-</ul>
-<h2 id="Lets-define-the-unique-account-number">Lets define the unique account number<a class="anchor-link" href="#Lets-define-the-unique-account-number">&#182;</a></h2><ul>
-<li>define a shared field <strong>account_count</strong></li>
-<li>increment it for each new account</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="n">_interest_rate</span><span class="o">=</span><span class="mi">12</span> <span class="c1">#class level field</span>
-    <span class="n">_account_count</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">):</span>
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span><span class="o">+=</span><span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
-        
-        
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
-    
-    
-    <span class="k">def</span> <span class="nf">get_interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span>
-    
-    
-    <span class="k">def</span> <span class="nf">set_interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>         
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">value</span>   <span class="c1"># we are changing global value</span>
-        
-    
-    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
-    
-            
-        
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -13864,11 +13309,30 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">,</span><span class="mi">5000</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;dir *.xml&#39;</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[34]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -13878,8 +13342,9 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">proc</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="s2">&quot;dir&quot;</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span class="n">data</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -13896,8 +13361,38 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	12
-2	5000	12
+<pre> Volume in drive C is Windows
+ Volume Serial Number is DCB7-12F4
+
+ Directory of C:\MyWorks\Practices\Python\Jupyter
+
+29-10-2017  22:18    &lt;DIR&gt;          .
+29-10-2017  22:18    &lt;DIR&gt;          ..
+29-10-2017  18:04    &lt;DIR&gt;          .ipynb_checkpoints
+21-10-2017  17:57             2,494 01.HelloJS.ipynb
+22-10-2017  20:18               180 accounts.csv
+22-10-2017  20:10            20,480 bank.db
+22-10-2017  18:49            16,384 employee.db
+22-09-2017  12:31            16,816 Iterators and Generators.ipynb
+22-09-2017  09:49            11,683 List Search.ipynb
+03-10-2017  16:24               885 movie.xml
+22-10-2017  21:39               885 movie2.xml
+29-10-2017  22:13               146 test.py
+22-10-2017  18:34             3,952 UnitTesting.ipynb
+29-10-2017  22:18            12,642 Untitled.ipynb
+22-10-2017  20:17            10,941 x Bank Sql Data Access.ipynb
+22-10-2017  20:34             5,447 x BankCSV.ipynb
+18-10-2017  22:51             4,507 x Decorator.ipynb
+22-10-2017  20:38             7,387 x logging.ipynb
+22-09-2017  10:42             8,502 x. Logger And Decorators.ipynb
+22-10-2017  21:48             8,071 x.ftp.ipynb
+03-10-2017  16:15             4,018 x.smtp.ipynb
+22-10-2017  22:29            12,398 x.urllib.ipynb
+03-10-2017  16:02             7,248 z Sql Data Access-Copy1.ipynb
+19-09-2017  20:23             4,912 z02-file-io.ipynb
+              21 File(s)        159,978 bytes
+               3 Dir(s)  689,306,910,720 bytes free
+
 </pre>
 </div>
 </div>
@@ -13905,34 +13400,15 @@ div#notebook {
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="whose-intest-rate-is-changes--when-we-use-below-code?">whose intest rate is changes  when we use below code?<a class="anchor-link" href="#whose-intest-rate-is-changes--when-we-use-below-code?">&#182;</a></h3>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">set_interest_rate</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">proc</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;dir *.csv&#39;</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">result</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13949,8 +13425,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	15
-2	5000	15
+<pre>(b&#39; Volume in drive C is Windows\r\n Volume Serial Number is DCB7-12F4\r\n\r\n Directory of C:\\MyWorks\\Practices\\Python\\Jupyter\r\n\r\n22-10-2017  20:18               180 accounts.csv\r\n               1 File(s)            180 bytes\r\n               0 Dir(s)  689,306,910,720 bytes free\r\n&#39;, None)
 </pre>
 </div>
 </div>
@@ -13959,94 +13434,145 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Problem">Problem<a class="anchor-link" href="#Problem">&#182;</a></h2><ul>
-<li><p>it looks liek <strong>a1.set_interest_rate(15)</strong> is updating interest for object <strong>a1</strong></p>
-</li>
-<li><p>it is actually modifying for everyone</p>
-</li>
-</ul>
-<h3 id="Solution">Solution<a class="anchor-link" href="#Solution">&#182;</a></h3><ul>
-<li><p>a class level field should be accessed only using class level methods</p>
-</li>
-<li><p>every method is python is classlevel (semantically)</p>
-</li>
-<li><p>designwise a class level method is one that doesn't take <strong>self</strong> and hence can't be called using object reference</p>
-</li>
-</ul>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> Volume in drive C is Windows
+ Volume Serial Number is DCB7-12F4
+
+ Directory of C:\MyWorks\Practices\Python\Jupyter
+
+22-10-2017  20:18               180 accounts.csv
+               1 File(s)            180 bytes
+               0 Dir(s)  689,305,100,288 bytes free
+
+</pre>
+</div>
+</div>
 
 </div>
 </div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">file</span> test.py
+import sys
+sys.stdout.write(&#39;Testing message to stdout\n&#39;)
+sys.stderr.write(&#39;Testing message to stderr\n&#39;)
+print(&#39;This should be on stdoout\n&#39;)
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Writing test.py
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span> <span class="k">as</span> <span class="nn">s</span>
+<span class="n">proc</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;python&#39;</span><span class="p">,</span><span class="s1">&#39;test.py&#39;</span><span class="p">],</span><span class="n">stdout</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sout</span><span class="p">,</span><span class="n">serr</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Stdout&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;StdError&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">serr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Stdout
+Testing message to stdout
+This should be on stdoout
+
+
+
+
+
+StdError
+Testing message to stderr
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="n">_interest_rate</span><span class="o">=</span><span class="mi">12</span> <span class="c1">#class level field</span>
-    <span class="n">_account_count</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">):</span>
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span><span class="o">+=</span><span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
-        
-        
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
-    
-    
-    <span class="k">def</span> <span class="nf">get_interest_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span>
-    
-    
-    <span class="k">def</span> <span class="nf">set_interest_rate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>         
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">value</span>   <span class="c1"># we are changing global value</span>
-        
-    
-    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">():</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
-    
-            
-        
-</pre></div>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span> <span class="k">as</span> <span class="nn">s</span>
+<span class="n">proc</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;python&#39;</span><span class="p">,</span><span class="s1">&#39;test.py&#39;</span><span class="p">],</span><span class="n">stdout</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sout</span><span class="p">,</span><span class="n">serr</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Stdout&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
 
-    </div>
-</div>
-</div>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;StdError&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">serr</span><span class="p">:</span>    
+    <span class="nb">print</span><span class="p">(</span><span class="n">serr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
-<span class="n">a2</span><span class="o">=</span><span class="n">BankAccount</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">,</span><span class="mi">5000</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+    
 </pre></div>
 
     </div>
@@ -14063,140 +13589,20 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	12
-2	5000	12
+<pre>Stdout
+Testing message to stderr
+Testing message to stdout
+This should be on stdoout
+
+
+
+
+
+StdError
 </pre>
 </div>
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BankAccount</span><span class="o">.</span><span class="n">set_interest_rate</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1	20000	15
-2	5000	15
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a1</span><span class="o">.</span><span class="n">set_interest_rate</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                        Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-43-f3497c3d8a4e&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>a1<span class="ansi-yellow-intense-fg ansi-bold">.</span>set_interest_rate<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-cyan-intense-fg ansi-bold">20</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: set_interest_rate() takes 1 positional argument but 2 were given</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Python-3">Python 3<a class="anchor-link" href="#Python-3">&#182;</a></h2><ul>
-<li>like python 2 includes @staticmethod decoarator</li>
-<li>this however in python 3 is optional (I <strong>strongly recommend</strong> using it))</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BankAccount</span><span class="p">:</span>
-    <span class="n">_interest_rate</span><span class="o">=</span><span class="mi">12</span> <span class="c1">#class level field</span>
-    <span class="n">_account_count</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">balance</span><span class="p">):</span>
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span><span class="o">+=</span><span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">=</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_account_count</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">=</span><span class="n">balance</span>
-        
-        
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
-            
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span>
-    
-    
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_interest_rate</span><span class="p">():</span> <span class="k">return</span> <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span>
-    
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">set_interest_rate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>         
-        <span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">=</span><span class="n">value</span>   <span class="c1"># we are changing global value</span>
-        
-    
-    <span class="k">def</span> <span class="nf">credit_interest</span><span class="p">():</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">():</span>
-            <span class="k">return</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">+=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_balance</span><span class="o">*</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="o">/</span><span class="mi">1200</span><span class="p">)</span>
-        
-        
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span><span class="n">BankAccount</span><span class="o">.</span><span class="n">_interest_rate</span><span class="p">)</span>
-    
-            
-        
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -14206,129 +13612,9 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BankAccount</span><span class="o">.</span><span class="n">get_interest_rate</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[46]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>12</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Python-doesn't-support-class-level-properties">Python doesn't support class level properties<a class="anchor-link" href="#Python-doesn't-support-class-level-properties">&#182;</a></h4><h1 id="Aside:-Do-we-need-shared-class-level-members-(In-any-programming-language)">Aside: Do we need shared class level members (In any programming language)<a class="anchor-link" href="#Aside:-Do-we-need-shared-class-level-members-(In-any-programming-language)">&#182;</a></h1><ul>
-<li><p>A class is a conceptually a blue print of an object</p>
-<ul>
-<li>it describes what an object should have</li>
-<li>it is <strong>considered</strong> to be abstract (or non-existant)</li>
-</ul>
-</li>
-<li><p>A class level members (a.k.a static member) doesn't require an object</p>
-<ul>
-<li>Are we really talking about <strong>object oriented programming</strong></li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>A class level member is used with class reference<ul>
-<li><strong>class oriented design</strong> or <strong>object oriented design</strong></li>
-</ul>
-</li>
-</ul>
-<h4 id="Use-case">Use case<a class="anchor-link" href="#Use-case">&#182;</a></h4><ul>
-<li><p>can a <strong>bank account</strong></p>
-<ul>
-<li>know total number of accounts?</li>
-<li>own (or control) interest rate?</li>
-</ul>
-</li>
-<li><p>If <strong>NO</strong> why should <strong>BankAccount</strong> class include those info?</p>
-</li>
-<li><p>Who owns these info --- <strong>Bank</strong></p>
-</li>
-</ul>
-<h3 id="Remember">Remember<a class="anchor-link" href="#Remember">&#182;</a></h3><ul>
-<li><p>every <strong>seemingly</strong> class level member of a class <strong>X</strong>, in reality is part of some object <strong>y</strong> of may be class <strong>Y</strong></p>
-</li>
-<li><p>for every class level member we should ask ---&gt; which object owns it?</p>
-</li>
-<li><p>A class level member essentially ignores another object in our system -- which is a <strong>design defect</strong></p>
-</li>
-</ul>
-<h4 id="Do-we-need-Bank-class-only-to-hold-account_count-and-interest_rate?">Do we need Bank class only to hold account_count and interest_rate?<a class="anchor-link" href="#Do-we-need-Bank-class-only-to-hold-account_count-and-interest_rate?">&#182;</a></h4><ul>
-<li>Who creates BankAccount?</li>
-<li>who manages BankAccount?</li>
-<li>Who credits interest?</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">icici</span><span class="o">=</span><span class="n">Bank</span><span class="p">(</span><span class="s1">&#39;ICICI&#39;</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
-
-<span class="n">a1</span><span class="o">=</span><span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Vivek&#39;</span><span class="p">,</span> <span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">2000</span><span class="p">)</span> <span class="c1">#return account number</span>
-
-<span class="n">a2</span><span class="o">=</span><span class="n">icici</span><span class="o">.</span><span class="n">open_account</span><span class="p">(</span><span class="s1">&#39;Prabhat&#39;</span><span class="p">,</span><span class="s1">&#39;word&#39;</span><span class="p">,</span><span class="mi">5000</span><span class="p">)</span>
-
-<span class="n">icici</span><span class="o">.</span><span class="n">transfer_fund</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">a2</span><span class="p">)</span>
-
-<span class="n">icici</span><span class="o">.</span><span class="n">credit_interest</span><span class="p">()</span> <span class="c1"># to all bank accounts gets 12%</span>
-
-<span class="n">icici</span><span class="o">.</span><span class="n">print_accounts</span><span class="p">()</span> <span class="c1"># prints all accounts</span>
-
-<span class="n">icici</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="s1">&#39;p@ss&#39;</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">file</span> greet.py
+name=input(&#39;whats your name?&#39;)
+print(&#39;\nHello {0}&#39;.format(name))
 </pre></div>
 
     </div>
@@ -14344,18 +13630,139 @@ div#notebook {
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>                        Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-47-5133cb1d039a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>icici<span class="ansi-yellow-intense-fg ansi-bold">=</span>Bank<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;ICICI&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-cyan-intense-fg ansi-bold">12</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">      2</span> 
-<span class="ansi-green-fg">      3</span> a1<span class="ansi-yellow-intense-fg ansi-bold">=</span>icici<span class="ansi-yellow-intense-fg ansi-bold">.</span>open_account<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;Vivek&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">&#39;p@ss&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-cyan-intense-fg ansi-bold">2000</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-red-intense-fg ansi-bold">#return account number</span>
-<span class="ansi-green-fg">      4</span> 
-<span class="ansi-green-fg">      5</span> a2<span class="ansi-yellow-intense-fg ansi-bold">=</span>icici<span class="ansi-yellow-intense-fg ansi-bold">.</span>open_account<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;Prabhat&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-blue-intense-fg ansi-bold">&#39;word&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-cyan-intense-fg ansi-bold">5000</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Overwriting greet.py
+</pre>
+</div>
+</div>
 
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;Bank&#39; is not defined</pre>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span> <span class="k">as</span> <span class="nn">s</span>
+
+<span class="n">proc</span><span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;python&#39;</span><span class="p">,</span><span class="s1">&#39;greet.py&#39;</span><span class="p">],</span><span class="n">stdout</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stdin</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">sout</span><span class="p">,</span><span class="n">serr</span><span class="p">)</span><span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">(</span><span class="s1">&#39;Crush, Rush&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">output</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+output
+
+whats your name?
+Hello Crush, Rush
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">file</span> printer.py
+import sys
+if len(sys.argv)&gt;=2:
+    print(&#39;Hello&#39;,sys.argv[1])
+else:
+    print(&#39;Hello&#39;,sys.argv[0])
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Overwriting printer.py
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span> <span class="k">as</span> <span class="nn">s</span>
+<span class="n">p1</span><span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;python printer.py Crush Rush&#39;</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">p2</span><span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;python greet.py&#39;</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">p1</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+<span class="n">p1</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="c1">#output=p2.communicate()[0]</span>
+
+<span class="p">(</span><span class="n">output</span><span class="p">,</span><span class="n">error</span><span class="p">)</span><span class="o">=</span><span class="n">p2</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">output&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">error&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+output
+whats your name?
+Hello Hello Crush
+
+
+
+error
+done
+</pre>
 </div>
 </div>
 
