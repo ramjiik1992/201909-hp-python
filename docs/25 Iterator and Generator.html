@@ -14010,6 +14010,25 @@ total time taken is 33.289841900000056
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Create-a-PrimeIterator-that-can-return-all-prime-in-a-min-max-range">Create a PrimeIterator that can return all prime in a min-max range<a class="anchor-link" href="#Create-a-PrimeIterator-that-can-return-all-prime-in-a-min-max-range">&#182;</a></h2><hr>
+<div class="highlight"><pre><span></span><span class="n">pi</span><span class="o">=</span><span class="n">Prime_Iterator</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">prime</span> <span class="ow">in</span> <span class="n">pi</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># 2 3 5 7 11 13 17 19</span>
+
+<span class="n">it</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">))</span> <span class="c1"># should be 2</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">))</span> <span class="c1"># should be 3</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">))</span> <span class="c1"># shold  be 5</span>
+</pre></div>
+<hr>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
