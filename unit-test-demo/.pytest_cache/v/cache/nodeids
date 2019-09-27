@@ -1,0 +1,7 @@
+[
+  "pytest_test.py::test_2_is_prime",
+  "pytest_test.py::test_12_is_not_prime",
+  "pytest_test.py::test_negatives_are_not_prime",
+  "pytest_test.py::test_4_primes_under_10",
+  "pytest_test.py::test_25_primes_under_100"
+]

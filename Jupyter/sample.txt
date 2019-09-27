@@ -1,0 +1,6 @@
+
+This is a simple text file
+It contains few lines of code
+This is the 3rd line
+And I have more lines
+This is the the last line

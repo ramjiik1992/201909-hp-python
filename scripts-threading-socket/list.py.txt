@@ -1,0 +1,82 @@
+class Node:pass
+
+class LinkedList:
+    
+    
+    def __init__(self):
+        self.__first=None
+        self.__last=None
+        self.__count=0
+        #self.__repr__=self.__str__
+    
+    def append(self,*values):
+        for value in values:
+            self._add(value)
+        return self
+    
+    def _add(self, value):
+        # create the new node
+        newNode= Node()
+        newNode.value=value
+        newNode.next=None
+        newNode.previous=self.__last
+        
+        #attach it to list
+        if self.__first != None :  # its not the first node we are adding
+            self.__last.next=newNode
+        else:
+            self.__first=newNode
+            
+        self.__last=newNode
+        self.__count+=1
+    
+    def __len__(self): return self.__count
+    
+    def __str__(self):
+        if self.__count==0 : return 'LinkedList[empty]'
+        
+        str='LinkedList[\t'
+        
+        n=self.__first
+        while( n!=None):
+            str+= '{}\t'.format(n.value)
+            n=n.next
+            
+        str+="]"
+        return str
+    
+    def _locate(self,pos):
+        if pos<0 or pos>= self.__count : return None
+        
+        if(pos==0) : return self.__first
+        
+        n=self.__first;
+        for c in range(pos):
+            n=n.next
+        return n
+    
+    
+    def get(self,pos): 
+        n = self._locate(pos)
+        
+        return n.value if (n!=None)  else  None
+    
+    def __getitem__(self,pos) : return self.get(pos)
+    
+    
+    def multiply(self,factor):
+        result=LinkedList()
+        for i in range(len(self)):
+            val= self.get(i) * factor
+            result.append(val)
+        return result
+        
+    def __mul__(self,factor): return self.multiply(factor)
+    
+    def __lshift__(self,value) :
+        #self._add(value)
+        #return self
+        return self.append(value)
+    
+    
+    def __repr__(self) : return self.__str__()

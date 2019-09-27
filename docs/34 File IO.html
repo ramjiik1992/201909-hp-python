@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>25 Iterator and Generator</title>
+<title>34 File IO</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13077,10 +13077,11 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Itererable-and-Iterator">Itererable and Iterator<a class="anchor-link" href="#Itererable-and-Iterator">&#182;</a></h2><ul>
-<li>An Iterable is something that can be processed using <strong>for loop</strong></li>
-<li>All the python sequences are <strong>Iterable</strong></li>
-<li>If you are not <strong>Iterable</strong> you can't works with <strong>for loop</strong></li>
+<h1 id="File-IO-operations">File IO operations<a class="anchor-link" href="#File-IO-operations">&#182;</a></h1><ul>
+<li>python provides simple file i/o </li>
+<li>you can open the file</li>
+<li>you can read/write</li>
+<li>you can close</li>
 </ul>
 
 </div>
@@ -13091,8 +13092,13 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> sample.txt
+
+<span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">simple</span> <span class="n">text</span> <span class="n">file</span>
+<span class="n">It</span> <span class="n">contains</span> <span class="n">few</span> <span class="n">lines</span> <span class="n">of</span> <span class="n">code</span>
+<span class="n">This</span> <span class="ow">is</span> <span class="n">the</span> <span class="mi">3</span><span class="n">rd</span> <span class="n">line</span>
+<span class="n">And</span> <span class="n">I</span> <span class="n">have</span> <span class="n">more</span> <span class="n">lines</span>
+<span class="n">This</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">the</span> <span class="n">last</span> <span class="n">line</span>
 </pre></div>
 
     </div>
@@ -13109,21 +13115,34 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>2	3	9	2	1	</pre>
+<pre>Writing sample.txt
+</pre>
 </div>
 </div>
 
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="to-read-a-file">to read a file<a class="anchor-link" href="#to-read-a-file">&#182;</a></h2>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="mi">100</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;sample.txt&#39;</span><span class="p">)</span>
+
+<span class="n">data</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c1"># reads entire file in one go</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c1"># good idea to close the file</span>
 </pre></div>
 
     </div>
@@ -13139,15 +13158,15 @@ div#notebook {
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_text output_error">
+<div class="output_subarea output_stream output_stdout output_text">
 <pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                        Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-2-ab9c940d2800&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span><span class="ansi-green-intense-fg ansi-bold">for</span> value <span class="ansi-green-intense-fg ansi-bold">in</span> <span class="ansi-cyan-intense-fg ansi-bold">100</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">      2</span>     print<span class="ansi-yellow-intense-fg ansi-bold">(</span>value<span class="ansi-yellow-intense-fg ansi-bold">,</span>end<span class="ansi-yellow-intense-fg ansi-bold">=</span><span class="ansi-blue-intense-fg ansi-bold">&#39;\t&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+This is a simple text file
+It contains few lines of code
+This is the 3rd line
+And I have more lines
+This is the the last line
 
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: &#39;int&#39; object is not iterable</pre>
+</pre>
 </div>
 </div>
 
@@ -13158,74 +13177,50 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="How-Iterable-Works?">How Iterable Works?<a class="anchor-link" href="#How-Iterable-Works?">&#182;</a></h2><h3 id="What--is-an-Iterable?">What  is an Iterable?<a class="anchor-link" href="#What--is-an-Iterable?">&#182;</a></h3><ul>
-<li><p>Iterable is something that can be <strong>Iterated</strong></p>
+<h2 id="Note">Note<a class="anchor-link" href="#Note">&#182;</a></h2><ol>
+<li><p>data is read in one go which may not be desirable for a very large</p>
 </li>
-<li><p>An Iterable has an <strong>Iterator</strong></p>
+<li><p>always remeber to close the file once your are done</p>
 </li>
-</ul>
-<h3 id="What-is-an-Iterator?">What is an Iterator?<a class="anchor-link" href="#What-is-an-Iterator?">&#182;</a></h3><ul>
-<li><p>An Iterator helps you <strong>Iterate</strong> <strong>each item</strong> of an <strong>Iterable</strong> one by one in a sequence</p>
-</li>
-<li><p><strong>Iterator</strong> and <strong>Iterable</strong> are two different objects (generally)</p>
-</li>
-</ul>
-<h3 id="Collection-Vs-Iterable">Collection Vs Iterable<a class="anchor-link" href="#Collection-Vs-Iterable">&#182;</a></h3><ul>
-<li><p><strong>collection</strong> represents an information <strong>store</strong></p>
-<ul>
-<li>information is stored</li>
-<li>you can use the information</li>
-</ul>
-</li>
-<li><p><strong>Iterable</strong> represents information flow</p>
-<ul>
-<li>you access information as they arrive</li>
-<li>the source of flow may be a stored information like list</li>
-</ul>
-</li>
-</ul>
-<h3 id="Lets-write-prime_list-function">Lets write prime_list function<a class="anchor-link" href="#Lets-write-prime_list-function">&#182;</a></h3>
+</ol>
+<h3 id="we-may-read-the-file-line-by-line">we may read the file line by line<a class="anchor-link" href="#we-may-read-the-file-line-by-line">&#182;</a></h3>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">number</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">number</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">number</span><span class="o">%</span><span class="k">test</span>==0:
-            <span class="k">return</span> <span class="kc">False</span>
-        
-    <span class="k">return</span> <span class="kc">True</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">prime_list</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="nb">min</span>
-        
-    <span class="n">result</span><span class="o">=</span><span class="p">[]</span>
-    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">is_prime</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            
-    <span class="k">return</span> <span class="n">result</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;large.txt&#39;</span><span class="p">)</span>
+<span class="n">lines</span><span class="o">=</span><span class="mi">0</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+    <span class="c1">#print(&#39;&gt;&#39;,line,end=&#39;&#39;)</span>
+    <span class="n">lines</span><span class="o">+=</span><span class="mi">1</span>
     
+<span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;total </span><span class="si">{lines}</span><span class="s1"> lines read&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>total 21760 lines read
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -13235,7 +13230,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">prime_list</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13252,90 +13247,14 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
-</pre>
-</div>
-</div>
+<pre>Help on built-in function read:
 
-</div>
-</div>
+read(size=-1, /) method of _io.TextIOWrapper instance
+    Read at most n characters from stream.
+    
+    Read from underlying buffer until we have n characters or we hit EOF.
+    If n is negative or omitted, read until EOF.
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
-<span class="k">def</span> <span class="nf">test_prime_find_performance</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">):</span>
-    <span class="n">start</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="n">result</span><span class="o">=</span><span class="n">prime_list</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span>
-    <span class="n">end</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;total primes {len(result)}&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;total time taken is {end-start}&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_prime_find_performance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>total primes 25
-total time taken is 0.00033610000014050456
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_prime_find_performance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">100000</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>total primes 9592
-total time taken is 33.289841900000056
 </pre>
 </div>
 </div>
@@ -13347,48 +13266,227 @@ total time taken is 33.289841900000056
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Problem--handling-large-stored-data">Problem  handling large stored data<a class="anchor-link" href="#Problem--handling-large-stored-data">&#182;</a></h2><ol>
-<li><p>you need to compute the entire result before they can be used</p>
-<ul>
-<li>you can't use the first piece of information before the last piece is computed and returned</li>
-<li>processing is delayed</li>
+<h2 id="what-if-you-encounter-error-in-file-operation???">what if you encounter error in file operation???<a class="anchor-link" href="#what-if-you-encounter-error-in-file-operation???">&#182;</a></h2><ul>
+<li>file is opened by default only for reading</li>
 </ul>
-</li>
-<li><p>you store all the data before using it</p>
-<ul>
-<li>large storage may be required</li>
-<li>you may not use all data together at once</li>
-<li><strong>MOST COMMON CASE : USE ONE BY ---&gt; FOR EACH ITEM</strong></li>
-</ul>
-</li>
-<li><p>once you start the fetch process (search) you can't abort the search. you must take all the data</p>
-<ul>
-<li>most often you use only a very small part of whole data</li>
-<li>consider your goolge search or amazon search results</li>
-</ul>
-</li>
-</ol>
-<h2 id="Solution---User-Iterator">Solution - User Iterator<a class="anchor-link" href="#Solution---User-Iterator">&#182;</a></h2><h3 id="Designing-an-Iteratble">Designing an Iteratble<a class="anchor-link" href="#Designing-an-Iteratble">&#182;</a></h3><ul>
-<li>An <strong>Iterable</strong> is someone that has an <strong>iterator</strong></li>
-<li>you can get the iterator of an iterable by using below option</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="n">obj</span><span class="o">=</span><span class="n">MyObject</span><span class="p">()</span>
-<span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="c1">#returns its iterator</span>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;sample.txt&#39;</span><span class="p">)</span>
+
+<span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;This is a  new Line&#39;</span><span class="p">)</span>
+
+<span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">UnsupportedOperation</span>             Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-7-812a0aba785c&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">      1</span> file<span class="ansi-yellow-intense-fg ansi-bold">=</span>open<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;sample.txt&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">      2</span> 
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>file<span class="ansi-yellow-intense-fg ansi-bold">.</span>write<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;This is a  new Line&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">      4</span> 
+<span class="ansi-green-fg">      5</span> file<span class="ansi-yellow-intense-fg ansi-bold">.</span>close<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-red-intense-fg ansi-bold">UnsupportedOperation</span>: not writable</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Note:">Note:<a class="anchor-link" href="#Note:">&#182;</a></h2><ul>
+<li><p>file can't be written (discussed later)</p>
+</li>
+<li><p><strong> file wasn't closed </strong></p>
+</li>
+<li><p>how to <strong>ensure</strong> that the <strong> file is closed </strong> no matter what</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;sample.txt&#39;</span><span class="p">)</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;I know it will fail&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;writing failed :&#39;</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;at least it will be closed&#39;</span><span class="p">)</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>writing failed : not writable
+at least it will be closed
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Easier-Option---with">Easier Option - with<a class="anchor-link" href="#Easier-Option---with">&#182;</a></h1><ul>
+<li>with is a special python construct which internally implements try-finally and closes resource no-matter what</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;sample.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>  <span class="c1">#file=open(&#39;sample.txt&#39;)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;This will fail. but with will close the file&#39;</span><span class="p">)</span>
+    
+<span class="c1">#automatically call del file</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+This is a simple text file
+It contains few lines of code
+This is the 3rd line
+And I have more lines
+This is the the last line
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">UnsupportedOperation</span>                      Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-9-06b268041f70&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-intense-fg ansi-bold">()</span>
+<span class="ansi-green-fg">      1</span> <span class="ansi-green-intense-fg ansi-bold">with</span> open<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;sample.txt&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-green-intense-fg ansi-bold">as</span> file<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">      2</span>     print<span class="ansi-yellow-intense-fg ansi-bold">(</span>file<span class="ansi-yellow-intense-fg ansi-bold">.</span>read<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span><span class="ansi-yellow-intense-fg ansi-bold">     </span>file<span class="ansi-yellow-intense-fg ansi-bold">.</span>write<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;This will fail. but with will close the file&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-red-intense-fg ansi-bold">UnsupportedOperation</span>: not writable</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="file-modes">file modes<a class="anchor-link" href="#file-modes">&#182;</a></h1><ul>
+<li>r [default]<ul>
+<li>read only file </li>
+<li>file must exist</li>
+<li>can't write</li>
+</ul>
+</li>
+<li><p>w</p>
 <ul>
-<li><strong>iter(obj)</strong> --&gt; obj.<strong>__iter__()</strong></li>
+<li>write only file</li>
+<li>created if not exists</li>
+<li>created new even if exists (deleting current content)</li>
 </ul>
-<h3 id="Designing-an-Iterator">Designing an Iterator<a class="anchor-link" href="#Designing-an-Iterator">&#182;</a></h3><ul>
-<li><p>An <strong>iteator</strong> can give you one item at a time when you call <strong>next</strong></p>
 </li>
-<li><p><strong>next(it)</strong> --&gt; it.<strong>__next__()</strong></p>
-</li>
-<li><p>first call to <strong>next</strong> returns first item</p>
-</li>
-<li>second call to <strong>next</strong> returns second item</li>
-<li>call to <strong>next</strong> past last item <strong>raise StopIteration</strong></li>
+<li><p>a</p>
+<ul>
+<li>write and append</li>
+<li>created if not exists</li>
+<li>appended if exists</li>
 </ul>
-<h3 id="Python-Sequences-is-an-Iterable">Python Sequences is an Iterable<a class="anchor-link" href="#Python-Sequences-is-an-Iterable">&#182;</a></h3>
+</li>
+<li><ul>
+<li><ul>
+<li>applies to r,w,a</li>
+<li>adds read-wite capacity</li>
+<li>basic nature doesn't change<ul>
+<li>r+ : read-write but not create</li>
+<li>w+ : read-write-create but not append (delete current content)</li>
+<li>a+ : read-write-create-append (no delete)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>t or b:<ul>
+<li>t is text mode (good only for textual data)</li>
+<li>b is binary mode (works for both text and not text data like image)</li>
+<li>can be applied on above modes</li>
+</ul>
+</li>
+</ul>
+
 </div>
 </div>
 </div>
@@ -13397,680 +13495,17 @@ total time taken is 33.289841900000056
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">it</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;list_iterator object at 0x000001C60EF74048&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[16]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>2</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[17]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>9</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[18]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>4</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Now-we-visited-all-of-them.-No-more-Item-left">Now we visited all of them. No more Item left<a class="anchor-link" href="#Now-we-visited-all-of-them.-No-more-Item-left">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">StopIteration</span>                    Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-19-bc1ab118995a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>next<span class="ansi-yellow-intense-fg ansi-bold">(</span>it<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-red-intense-fg ansi-bold">StopIteration</span>: </pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="how-for-loop-works">how for loop works<a class="anchor-link" href="#how-for-loop-works">&#182;</a></h3><ul>
-<li><p>for loop is internally a while loop</p>
-</li>
-<li><p>to find a sum of list</p>
-</li>
-</ul>
-<hr>
-<div class="highlight"><pre><span></span><span class="n">numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="nb">sum</span><span class="o">=</span><span class="mi">0</span>
-<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
-    <span class="nb">sum</span><span class="o">+=</span><span class="n">number</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
-</pre></div>
-<hr>
-<ul>
-<li>internally the above code is same as</li>
-</ul>
-<hr>
-<div class="highlight"><pre><span></span><span class="n">numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#user code</span>
-<span class="nb">sum</span><span class="o">=</span><span class="mi">0</span>               <span class="c1">#user code</span>
-
-<span class="n">_it</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>   <span class="c1">#generated</span>
-<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>         <span class="c1">#generated</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">number</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">_it</span><span class="p">)</span>  <span class="c1">#generated</span>
-        <span class="nb">sum</span><span class="o">+=</span><span class="n">number</span>     <span class="c1">#user</span>
-    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span> <span class="c1">#generated</span>
-        <span class="k">break</span>             <span class="c1">#generated</span>
-
-<span class="k">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
-</pre></div>
-<hr>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="c1">#user code</span>
-<span class="nb">sum</span><span class="o">=</span><span class="mi">0</span>               <span class="c1">#user code</span>
-
-<span class="n">_it</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>   <span class="c1">#generated</span>
-<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>         <span class="c1">#generated</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">number</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">_it</span><span class="p">)</span>  <span class="c1">#generated</span>
-        <span class="nb">sum</span><span class="o">+=</span><span class="n">number</span>     <span class="c1">#user</span>
-    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span> <span class="c1">#generated</span>
-        <span class="k">break</span>             <span class="c1">#generated</span>
-        
-<span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>20
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Creating-our-own-Iterable">Creating our own Iterable<a class="anchor-link" href="#Creating-our-own-Iterable">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dummy</span><span class="p">:</span>
-    <span class="k">pass</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">Dummy</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                        Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-23-f3edc5eff159&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span><span class="ansi-green-intense-fg ansi-bold">for</span> value <span class="ansi-green-intense-fg ansi-bold">in</span> Dummy<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">      2</span>     print<span class="ansi-yellow-intense-fg ansi-bold">(</span>value<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: &#39;Dummy&#39; object is not iterable</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dummy</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">Dummy</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                        Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-30-4e057a8a5a26&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span><span class="ansi-green-intense-fg ansi-bold">for</span> value <span class="ansi-green-intense-fg ansi-bold">in</span> Dummy<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">      2</span>     print<span class="ansi-yellow-intense-fg ansi-bold">(</span>value<span class="ansi-yellow-intense-fg ansi-bold">,</span>end<span class="ansi-yellow-intense-fg ansi-bold">=</span><span class="ansi-blue-intense-fg ansi-bold">&#39;\t&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: iter() returned non-iterator of type &#39;NoneType&#39;</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DummyIterator</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">()</span>
-    
-<span class="k">class</span> <span class="nc">DummyIterable</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">DummyIterator</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">DummyIterable</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Table</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="o">=</span><span class="n">number</span>
-        
-        
-    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">TableIterator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
-    
-    <span class="k">class</span> <span class="nc">TableIterator</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">number</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="o">=</span><span class="n">number</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">multiplier</span><span class="o">=</span><span class="mi">0</span>
-            
-        <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">multiplier</span><span class="o">+=</span><span class="mi">1</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiplier</span><span class="o">&gt;</span><span class="mi">10</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">()</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;multiplying </span><span class="si">{self.number}</span><span class="s1">*</span><span class="si">{self.multiplier}</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiplier</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">Table</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span>
-<span class="n">i</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>multiplying 19*1
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[41]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>19</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>multiplying 19*2
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[42]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>38</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Table</span><span class="p">(</span><span class="mi">23</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>multiplying 23*1
-23	multiplying 23*2
-46	multiplying 23*3
-69	multiplying 23*4
-92	multiplying 23*5
-115	multiplying 23*6
-138	multiplying 23*7
-161	multiplying 23*8
-184	multiplying 23*9
-207	multiplying 23*10
-230	</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="General-Design-of-an-Iteratable">General Design of an Iteratable<a class="anchor-link" href="#General-Design-of-an-Iteratable">&#182;</a></h3><hr>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyIterableClass</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param1</span><span class="p">,</span> <span class="n">param2</span><span class="p">):</span>
-        <span class="c1">#todo intialize your object</span>
-
-    <span class="c1"># other object methods not related to Iterable</span>
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
-
-
-    <span class="c1">#Iterator design</span>
-    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">MyIterableClass</span><span class="o">.</span><span class="n">_Iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># pass your info to your iterator</span>
-
-    <span class="k">class</span> <span class="nc">_Iterator</span> <span class="p">:</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_iterable</span><span class="o">=</span><span class="n">iterable</span> <span class="c1">#this is what i will iterate</span>
-            <span class="c1">#create iterator related here field here</span>
-
-        <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="c1">#see if you have something to return</span>
-            <span class="c1">#else</span>
-            <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">()</span>
-</pre></div>
-<hr>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Create-a-PrimeIterator-that-can-return-all-prime-in-a-min-max-range">Create a PrimeIterator that can return all prime in a min-max range<a class="anchor-link" href="#Create-a-PrimeIterator-that-can-return-all-prime-in-a-min-max-range">&#182;</a></h2><hr>
-<div class="highlight"><pre><span></span><span class="n">pi</span><span class="o">=</span><span class="n">Prime_Iterator</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">prime</span> <span class="ow">in</span> <span class="n">pi</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># 2 3 5 7 11 13 17 19</span>
-
-<span class="n">it</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">))</span> <span class="c1"># should be 2</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">))</span> <span class="c1"># should be 3</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">))</span> <span class="c1"># shold  be 5</span>
-</pre></div>
-<hr>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">next_prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="k">while</span> <span class="ow">not</span> <span class="n">is_prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-        <span class="n">number</span><span class="o">+=</span><span class="mi">1</span>
-    <span class="k">return</span> <span class="n">number</span>
-
-<span class="k">class</span> <span class="nc">PrimeRange</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="nb">min</span>
-            
-        <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">=</span><span class="nb">min</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">=</span><span class="nb">max</span>
-        
-    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">PrimeRange</span><span class="o">.</span><span class="n">_Iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-    
-    <span class="k">class</span> <span class="nc">_Iterator</span><span class="p">:</span>
-        
-        
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">primeRange</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_max</span><span class="o">=</span><span class="n">primeRange</span><span class="o">.</span><span class="n">max</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="o">=</span><span class="n">primeRange</span><span class="o">.</span><span class="n">min</span>
-            
-        <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            
-            <span class="n">prime</span><span class="o">=</span><span class="n">next_prime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="p">)</span>
-            
-            <span class="k">if</span> <span class="n">prime</span><span class="o">&gt;=</span><span class="bp">self</span><span class="o">.</span><span class="n">_max</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="n">trgt</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">trgt</span><span class="p">,</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">buff</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span> <span class="c1"># read upto 1024 bytes</span>
+                <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">buff</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span> <span class="c1"># nothing to read</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buff</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
                 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="o">=</span><span class="n">prime</span><span class="o">+</span><span class="mi">1</span>
             
-            <span class="k">return</span> <span class="n">prime</span>
-            
-            
-            
-        
 </pre></div>
 
     </div>
@@ -14080,91 +13515,10 @@ total time taken is 33.289841900000056
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pr</span><span class="o">=</span><span class="n">PrimeRange</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
-<span class="n">pi</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">pr</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[52]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>23</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[53]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>29</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">prime</span> <span class="ow">in</span> <span class="n">PrimeRange</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">50</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">prime</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;src-file.ipynb&#39;</span><span class="p">,</span><span class="s1">&#39;src-copy.ipynb&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14181,12 +13535,7 @@ total time taken is 33.289841900000056
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>31
-37
-41
-43
-47
-</pre>
+<pre>. . . . . . . . . . . . . . . . . . . . . . </pre>
 </div>
 </div>
 
@@ -14197,860 +13546,9 @@ total time taken is 33.289841900000056
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Combining-Iterator-and-Iterable-in-class">Combining Iterator and Iterable in class<a class="anchor-link" href="#Combining-Iterator-and-Iterable-in-class">&#182;</a></h2>
+<h1 id="Object-Serialization----pickle">Object Serialization -- pickle<a class="anchor-link" href="#Object-Serialization----pickle">&#182;</a></h1>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">next_prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="k">while</span> <span class="ow">not</span> <span class="n">is_prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-        <span class="n">number</span><span class="o">+=</span><span class="mi">1</span>
-    <span class="k">return</span> <span class="n">number</span>
-
-<span class="k">class</span> <span class="nc">PrimeIterator</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="nb">min</span>
-            
-        <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">=</span><span class="nb">max</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="o">=</span><span class="nb">min</span><span class="o">-</span><span class="mi">1</span>
-        
-    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span>
-    
-            
-    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="n">prime</span><span class="o">=</span><span class="n">next_prime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">prime</span><span class="o">&gt;=</span><span class="bp">self</span><span class="o">.</span><span class="n">_max</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">()</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="o">=</span><span class="n">prime</span><span class="o">+</span><span class="mi">1</span>
-
-        <span class="k">return</span> <span class="n">prime</span>
-            
-            
-            
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pr</span><span class="o">=</span><span class="n">PrimeRange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">pi</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">pr</span><span class="p">)</span>
-<span class="n">pi2</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">pr</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">pr</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">pi</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">pi2</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pr</span><span class="o">==</span><span class="n">pi</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pi</span><span class="o">==</span><span class="n">pi2</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1950166239688
-1950166238152
-1950166525256
-False
-False
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pr</span><span class="o">=</span><span class="n">PrimeIterator</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">pi</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">pr</span><span class="p">)</span>
-<span class="n">pi2</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">pr</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">pr</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">pi</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">pi2</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pr</span><span class="o">==</span><span class="n">pi</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pi</span><span class="o">==</span><span class="n">pi2</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1950166238664
-1950166238664
-1950166238664
-True
-True
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Advantage-and-Disadvantage-of-Iterator">Advantage and Disadvantage of Iterator<a class="anchor-link" href="#Advantage-and-Disadvantage-of-Iterator">&#182;</a></h3><ul>
-<li><p>Advantage</p>
-<ul>
-<li>compute on the go</li>
-<li>values are returned one by one</li>
-<li>not stored</li>
-<li>you can stop whenever you want </li>
-<li>no need to reach the end</li>
-<li>calcualte-process-calculate-process</li>
-</ul>
-</li>
-<li><p>Disadvantage</p>
-<ul>
-<li>very large and complex code</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>stored logic </li>
-</ul>
-<hr>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">prime_list</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">max</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="nb">min</span>
-
-    <span class="n">result</span><span class="o">=</span><span class="p">[]</span>
-    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">is_prime</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">result</span>
-</pre></div>
-<hr>
-<ul>
-<li>vs computed logic</li>
-</ul>
-<hr>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">next_prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="k">while</span> <span class="ow">not</span> <span class="n">is_prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-        <span class="n">number</span><span class="o">+=</span><span class="mi">1</span>
-    <span class="k">return</span> <span class="n">number</span>
-
-<span class="k">class</span> <span class="nc">PrimeIterator</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">max</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="nb">min</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">=</span><span class="nb">max</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="o">=</span><span class="nb">min</span><span class="o">-</span><span class="mi">1</span>
-
-    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-
-    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="n">prime</span><span class="o">=</span><span class="n">next_prime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">prime</span><span class="o">&gt;=</span><span class="bp">self</span><span class="o">.</span><span class="n">_max</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">()</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="o">=</span><span class="n">prime</span><span class="o">+</span><span class="mi">1</span>
-
-        <span class="k">return</span> <span class="n">prime</span>
-</pre></div>
-<hr>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Generators">Generators<a class="anchor-link" href="#Generators">&#182;</a></h1><ul>
-<li>A generator can generate an Iterable-Iterator model with a simple langauge keyword <strong>yield</strong></li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">func1</span><span class="p">():</span>
-    <span class="k">return</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="mi">2</span>
-    <span class="k">return</span> <span class="mi">3</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">func1</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">func1</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">func1</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1
-1
-1
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Yield-keyword">Yield keyword<a class="anchor-link" href="#Yield-keyword">&#182;</a></h3><ul>
-<li><p>it looks like return, but remembers its position</p>
-</li>
-<li><p>when a function <strong>yield</strong> it doesn't return the value it returns a <strong>generator</strong></p>
-</li>
-<li><p>A gerator is an <strong>self iterating iteratble</strong> (just like our PrimeIterator)</p>
-</li>
-<li><p>each call to <strong>next</strong> jumps to the next <strong>yield</strong> point</p>
-</li>
-<li><p>function doesn't execute till first <strong>next</strong> is called</p>
-</li>
-<li><p>auto raises <strong>StopIteration</strong> once your reach past last <strong>yield</strong></p>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">simple_generator</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;generator started&#39;</span><span class="p">)</span>
-    <span class="k">yield</span> <span class="s1">&#39;first yield&#39;</span><span class="p">;</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;moving to second check point&#39;</span><span class="p">)</span>
-    <span class="k">yield</span> <span class="s1">&#39;second yield&#39;</span><span class="p">;</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;moving to the final check point&#39;</span><span class="p">)</span>
-    <span class="k">yield</span> <span class="s1">&#39;last yield&#39;</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;we reached passed the last yield point&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">simple_generator</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;generator object simple_generator at 0x000001C60EF9C6C8&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">i</span><span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;generator object simple_generator at 0x000001C60EF9C6C8&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">i</span> <span class="ow">is</span> <span class="n">x</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[66]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>generator started
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[67]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;first yield&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># i and x are same and interchangbley usable</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>moving to second check point
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[68]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;second yield&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>moving to the final check point
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[69]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;last yield&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>we reached passed the last yield point
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">StopIteration</span>                    Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-70-92de4e9f6b1e&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>next<span class="ansi-yellow-intense-fg ansi-bold">(</span>x<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-red-intense-fg ansi-bold">StopIteration</span>: </pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">simple_generator</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>generator started
-first yield
-moving to second check point
-second yield
-moving to the final check point
-last yield
-we reached passed the last yield point
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="prime_generator">prime_generator<a class="anchor-link" href="#prime_generator">&#182;</a></h1>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">prime_generator</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="nb">min</span>
-        
-    <span class="c1">#result=[]</span>
-    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">is_prime</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-            <span class="c1">#result.append(value)</span>
-            <span class="k">yield</span> <span class="n">value</span>
-            
-    <span class="c1">#return result</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pr</span><span class="o">=</span><span class="n">prime_generator</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pr</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;generator object prime_generator at 0x000001C60EF9C848&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">pr</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[76]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>2</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">pr</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[77]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>3</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">pr</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>5	7	11	13	17	19	23	29	31	37	41	43	47	53	59	61	67	71	73	79	83	89	97	</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">pr</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="what-if-I-realy-need-to-store">what if I realy need to store<a class="anchor-link" href="#what-if-I-realy-need-to-store">&#182;</a></h3><ul>
-<li>think again!<ul>
-<li>you dont need</li>
-</ul>
-</li>
-</ul>
-<h3 id="But-if-you-need">But if you need<a class="anchor-link" href="#But-if-you-need">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">primes</span><span class="o">=</span><span class="p">[</span><span class="n">prime</span> <span class="k">for</span> <span class="n">prime</span> <span class="ow">in</span> <span class="n">prime_generator</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">)]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">primes</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
